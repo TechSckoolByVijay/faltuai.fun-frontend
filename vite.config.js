@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' 
-    ? (process.env.VITE_BASE_PATH || '/') 
+    ? (process.env.VITE_BASE_PATH || '/faltuai.fun-frontend/') 
     : '/',
   server: {
     host: true,
