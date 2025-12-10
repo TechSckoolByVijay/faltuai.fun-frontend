@@ -15,6 +15,9 @@ import LoginCallback from './pages/LoginCallback.jsx';
 import Feature1Page from './features/feature1/Feature1Page.jsx';
 import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
 
+// Debug
+import DebugInfo from './debug.jsx';
+
 // Styles
 import './index.css';
 
@@ -43,6 +46,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth/callback" element={<LoginCallback />} />
+            <Route path="/debug" element={<DebugInfo />} />
             
             {/* Protected Routes */}
             <Route 

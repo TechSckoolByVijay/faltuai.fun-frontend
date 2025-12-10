@@ -50,12 +50,30 @@ jobs:
 
       - name: Setup environment for GitHub Pages
         run: |
+          echo "=== DEBUG: Environment Setup ==="
           cp .env.pages .env.production
-          echo "Building for GitHub Pages deployment..."
           echo "VITE_BASE_PATH=/faltuai.fun-frontend/" >> .env.production
+          echo "Contents of .env.production:"
+          cat .env.production
+          echo "Current working directory:"
+          pwd
+          echo "Files in directory:"
+          ls -la
+          echo "Building for GitHub Pages deployment..."
 
       - name: Build application
-        run: npm run build
+        run: |
+          echo "=== DEBUG: Build Process ==="
+          echo "NODE_ENV: $NODE_ENV"
+          echo "VITE_BASE_PATH: $VITE_BASE_PATH"
+          echo "Starting npm build..."
+          npm run build
+          echo "Build completed. Contents of dist directory:"
+          ls -la dist/
+          echo "Contents of dist/assets:"
+          ls -la dist/assets/ || echo "No assets directory found"
+          echo "Sample of index.html:"
+          head -20 dist/index.html
         env:
           NODE_ENV: production
           VITE_BASE_PATH: /faltuai.fun-frontend/
