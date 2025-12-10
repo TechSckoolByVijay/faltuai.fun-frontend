@@ -52,11 +52,13 @@ jobs:
         run: |
           cp .env.pages .env.production
           echo "Building for GitHub Pages deployment..."
+          echo "VITE_BASE_PATH=/faltuai.fun-frontend/" >> .env.production
 
       - name: Build application
         run: npm run build
         env:
           NODE_ENV: production
+          VITE_BASE_PATH: /faltuai.fun-frontend/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
