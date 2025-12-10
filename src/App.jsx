@@ -13,6 +13,7 @@ import LoginCallback from './pages/LoginCallback.jsx';
 
 // Features
 import Feature1Page from './features/feature1/Feature1Page.jsx';
+import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
 
 // Styles
 import './index.css';
@@ -58,6 +59,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Feature1Page />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/resume-roast" 
+              element={
+                <ProtectedRoute>
+                  <ResumeRoastPage />
                 </ProtectedRoute>
               } 
             />

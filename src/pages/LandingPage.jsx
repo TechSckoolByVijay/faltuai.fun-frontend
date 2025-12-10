@@ -58,6 +58,12 @@ const LandingPage = () => {
                   >
                     Try Feature 1
                   </a>
+                  <a
+                    href="/#/resume-roast"
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                  >
+                    🔥 Roast Resume
+                  </a>
                 </div>
               </div>
             )}
@@ -80,12 +86,12 @@ const LandingPage = () => {
               </p>
             </div>
 
-            {/* Feature Card 2 */}
-            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
-              <div className="text-4xl mb-4">🎨</div>
-              <h4 className="text-xl font-semibold mb-3">Creative Tools</h4>
+            {/* Feature Card 2 - Resume Roast */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-red-500">
+              <div className="text-4xl mb-4">🔥</div>
+              <h4 className="text-xl font-semibold mb-3">Resume Roaster <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full ml-2">💎 Premium</span></h4>
               <p className="text-gray-600">
-                Generate images, write stories, create music, and explore your artistic side with AI-powered tools.
+                Get brutally honest AI feedback on your resume. Upload your CV and receive detailed roasting with actionable improvement tips.
               </p>
             </div>
 

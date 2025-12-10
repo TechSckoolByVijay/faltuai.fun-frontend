@@ -43,7 +43,7 @@ const Dashboard = () => {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-gray-500">Features Available:</span>
-                <span className="font-medium">1</span>
+                <span className="font-medium">2</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Last Login:</span>
@@ -66,11 +66,17 @@ const Dashboard = () => {
               >
                 Try Feature 1
               </Link>
+              <Link
+                to="/resume-roast"
+                className="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
+              >
+                🔥 Resume Roast
+              </Link>
               <button
                 disabled
                 className="block w-full bg-gray-300 text-gray-500 text-center py-2 px-4 rounded-md cursor-not-allowed"
               >
-                Feature 2 (Coming Soon)
+                Feature 3 (Coming Soon)
               </button>
               <button
                 disabled
@@ -106,6 +112,31 @@ const Dashboard = () => {
                 className="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition duration-200"
               >
                 Try Now →
+              </Link>
+            </div>
+
+            {/* Resume Roast Card */}
+            <div className="border border-red-200 rounded-lg p-6 hover:border-red-300 transition duration-200 bg-gradient-to-br from-red-50 to-orange-50">
+              <div className="flex items-center mb-4">
+                <div className="bg-red-100 p-3 rounded-lg">
+                  <span className="text-2xl">🔥</span>
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Resume Roaster</h3>
+                  <div className="flex gap-2">
+                    <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">Available</span>
+                    <span className="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded">💎 Premium</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 mb-4">
+                Get your resume roasted by AI! Upload your resume and get brutally honest feedback with actionable improvement tips.
+              </p>
+              <Link
+                to="/resume-roast"
+                className="inline-block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition duration-200"
+              >
+                🔥 Roast Now →
               </Link>
             </div>
 

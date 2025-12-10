@@ -9,6 +9,13 @@ export const API_ENDPOINTS = {
   },
   FEATURE1: {
     HELLO: `${BACKEND_URL}/feature1/hello`,
+  },
+  RESUME_ROAST: {
+    STYLES: `${BACKEND_URL}/api/v1/resume-roast/styles`,
+    ROAST_TEXT: `${BACKEND_URL}/api/v1/resume-roast/roast-text`,
+    UPLOAD_AND_ROAST: `${BACKEND_URL}/api/v1/resume-roast/upload-and-roast`,
+    EXTRACT_TEXT: `${BACKEND_URL}/api/v1/resume-roast/extract-text`,
+    DEMO: `${BACKEND_URL}/api/v1/resume-roast/demo`,
   }
 };
 
