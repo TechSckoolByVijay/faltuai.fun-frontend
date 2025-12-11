@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
 
 /**
@@ -46,24 +47,24 @@ const LandingPage = () => {
                   Welcome back, {user?.name || user?.email}! 👋
                 </h2>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a
-                    href="/#/dashboard"
+                  <Link
+                    to="/dashboard"
                     className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
                   >
                     Go to Dashboard
-                  </a>
-                  <a
-                    href="/#/feature1"
+                  </Link>
+                  <Link
+                    to="/feature1"
                     className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
                   >
                     Try Feature 1
-                  </a>
-                  <a
-                    href="/#/resume-roast"
+                  </Link>
+                  <Link
+                    to="/resume-roast"
                     className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
                   >
                     🔥 Roast Resume
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
