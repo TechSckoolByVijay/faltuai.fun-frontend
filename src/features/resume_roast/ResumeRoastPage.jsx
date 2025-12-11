@@ -9,7 +9,12 @@ import { API_ENDPOINTS } from '../../config/backend.js';
  */
 const ResumeRoastPage = () => {
   const [activeTab, setActiveTab] = useState('text');
-  const [roastStyles, setRoastStyles] = useState({});
+  const [roastStyles, setRoastStyles] = useState({
+    funny: { name: 'Funny Roast', description: 'Light-hearted, humorous critique' },
+    professional: { name: 'Professional Review', description: 'Constructive professional feedback' },
+    brutal: { name: 'Brutal Honesty', description: 'No-holds-barred honest critique' },
+    constructive: { name: 'Constructive Feedback', description: 'Detailed improvement suggestions' }
+  });
   const [selectedStyle, setSelectedStyle] = useState('funny');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -30,12 +35,25 @@ const ResumeRoastPage = () => {
   const loadRoastingStyles = async () => {
     try {
       const token = authService.getToken();
+      console.log('Loading roasting styles with token:', token ? 'Present' : 'Missing');
+      
       const response = await axios.get(API_ENDPOINTS.RESUME_ROAST.STYLES, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      
+      console.log('Roasting styles loaded:', response.data.styles);
       setRoastStyles(response.data.styles);
     } catch (err) {
       console.error('Failed to load roasting styles:', err);
+      console.error('Error details:', err.response?.data || err.message);
+      
+      // Fallback styles if API call fails
+      setRoastStyles({
+        funny: { name: 'Funny Roast', description: 'Light-hearted, humorous critique' },
+        professional: { name: 'Professional Review', description: 'Constructive professional feedback' },
+        brutal: { name: 'Brutal Honesty', description: 'No-holds-barred honest critique' },
+        constructive: { name: 'Constructive Feedback', description: 'Detailed improvement suggestions' }
+      });
     }
   };
 
