@@ -10,7 +10,7 @@ const LandingPage = () => {
   const { isAuthenticated, login, user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-blue-50 dark:from-neutral-dark dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center">

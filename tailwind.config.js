@@ -16,10 +16,10 @@ export default {
           300: '#93c5fd',
           400: '#60a5fa',
           500: '#0B63E5', // Main FaltooAI Blue
-          600: '#0B63E5',
-          700: '#0a56c7',
-          800: '#0947a3',
-          900: '#083a85',
+          600: '#0956d4', // Darker blue for hover states
+          700: '#0747a6',
+          800: '#053a8a',
+          900: '#042e69',
         },
         accent: {
           50: '#fffbeb',
@@ -33,9 +33,20 @@ export default {
           800: '#92400e',
           900: '#78350f',
         },
-        neutral: {
-          light: '#F8FAFC',
-          dark: '#0F172A',
+        // Enhanced dark mode colors
+        gray: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          850: '#0f172a', // FaltooAI dark
+          900: '#0f172a',
+          950: '#020617',
         }
       },
       fontFamily: {

@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle.jsx';
  * Navigation component with authentication support
  */
 const Navbar = () => {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user, logout, login } = useAuth();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -94,9 +94,12 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <div className="text-gray-500 dark:text-gray-400 text-sm">
-                Not authenticated
-              </div>
+              <button
+                onClick={login}
+                className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Login
+              </button>
             )}
           </div>
         </div>
