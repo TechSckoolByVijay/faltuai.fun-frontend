@@ -43,7 +43,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <div className="App">
+        <div className="App min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-50 transition-colors duration-300">
           <Navbar />
           <main>
             <Routes>
