@@ -403,7 +403,7 @@ const ResumeRoastPage = () => {
                     <div className="space-y-2">
                       {result.suggestions.map((suggestion, index) => (
                         <div key={index} className="flex items-start">
-                          <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">
+                          <span className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">
                             {index + 1}
                           </span>
                           <span className="text-gray-700">{suggestion}</span>
@@ -430,7 +430,7 @@ const ResumeRoastPage = () => {
                       const text = `Resume Roast Results:\n\n${result.roast}\n\nSuggestions:\n${result.suggestions?.join('\n') || 'No suggestions'}`;
                       navigator.clipboard.writeText(text);
                     }}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
+                    className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
                   >
                     📋 Copy Results
                   </button>
