@@ -2,6 +2,9 @@ import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuth } from './auth/useAuth.js';
 
+// Contexts
+import { ThemeProvider } from './contexts/ThemeContext.jsx';
+
 // Components
 import Navbar from './components/Navbar.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
@@ -38,11 +41,12 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <main>
-          <Routes>
+    <ThemeProvider>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <main>
+            <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth/callback" element={<LoginCallback />} />
@@ -90,10 +94,11 @@ function App() {
             
             {/* Catch-all route - redirect to home */}
             <Route path="*" element={<LandingPage />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

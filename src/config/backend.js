@@ -21,7 +21,9 @@ export const API_ENDPOINTS = {
 
 // Default configuration
 export const CONFIG = {
-  APP_NAME: 'FaltuAI Fun',
+  APP_NAME: 'FaltooAI',
+  TAGLINE: 'Small Extras. Big Productivity.',
+  DESCRIPTION: 'Because a Little Extra Creates Big Value',
   VERSION: '1.0.0',
   ENVIRONMENT: import.meta.env.MODE || 'development'
 };
