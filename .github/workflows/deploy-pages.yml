@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "=== DEBUG: Environment Setup ==="
           cp .env.pages .env.production
-          echo "VITE_BASE_PATH=/faltuai.fun-frontend/" >> .env.production
+          echo "VITE_BASE_PATH=/" >> .env.production
           echo "Contents of .env.production:"
           cat .env.production
           echo "Current working directory:"
@@ -76,7 +76,7 @@ jobs:
           head -20 dist/index.html
         env:
           NODE_ENV: production
-          VITE_BASE_PATH: /faltuai.fun-frontend/
+          VITE_BASE_PATH: /
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
