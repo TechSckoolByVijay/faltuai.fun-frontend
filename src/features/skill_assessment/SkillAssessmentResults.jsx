@@ -350,13 +350,74 @@ const SkillAssessmentResults = () => {
                             module.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200' :
                             'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-200'
                           }`}>
-                            {module.priority}
+                            {module.duration_weeks} weeks
                           </span>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">{module.description}</p>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          Estimated: {module.duration_weeks} weeks
-                        </div>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 whitespace-pre-line">{module.description}</p>
+                        
+                        {/* Weekly Breakdown within Module */}
+                        {module.weekly_breakdown && module.weekly_breakdown.length > 0 && (
+                          <div className="mt-4 space-y-3 bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                            <h6 className="font-medium text-gray-900 dark:text-white text-sm mb-3">📅 Week-by-Week Plan</h6>
+                            {module.weekly_breakdown.map((week, weekIdx) => (
+                              <div key={weekIdx} className="border-l-4 border-blue-500 pl-4 py-2">
+                                <div className="flex justify-between items-start mb-2">
+                                  <h6 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+                                    Week {week.week}: {week.theme}
+                                  </h6>
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                                    {week.time_commitment_hours}h
+                                  </span>
+                                </div>
+                                
+                                {week.focus_area && (
+                                  <p className="text-xs text-blue-700 dark:text-blue-300 mb-1">
+                                    <strong>Focus:</strong> {week.focus_area}
+                                  </p>
+                                )}
+                                
+                                {week.why_this_week && (
+                                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 whitespace-pre-line italic bg-blue-50 dark:bg-blue-900/10 p-2 rounded">
+                                    <strong>Why:</strong> {week.why_this_week}
+                                  </p>
+                                )}
+                                
+                                {week.goals && week.goals.length > 0 && (
+                                  <div className="mb-2">
+                                    <strong className="text-xs text-gray-700 dark:text-gray-300">Goals:</strong>
+                                    <ul className="list-disc list-inside ml-2 text-xs text-gray-600 dark:text-gray-400">
+                                      {week.goals.map((goal, gIdx) => (
+                                        <li key={gIdx}>{goal}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {week.daily_breakdown && week.daily_breakdown.length > 0 && (
+                                  <div className="mb-2">
+                                    <strong className="text-xs text-gray-700 dark:text-gray-300">Daily Plan:</strong>
+                                    <ul className="ml-2 text-xs text-gray-600 dark:text-gray-400">
+                                      {week.daily_breakdown.map((day, dIdx) => (
+                                        <li key={dIdx}>• {day}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {week.deliverables && week.deliverables.length > 0 && (
+                                  <div>
+                                    <strong className="text-xs text-green-700 dark:text-green-300">Deliverables:</strong>
+                                    <ul className="ml-2 text-xs text-gray-600 dark:text-gray-400">
+                                      {week.deliverables.map((del, delIdx) => (
+                                        <li key={delIdx}>✓ {del}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -405,10 +466,46 @@ const SkillAssessmentResults = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {learningPlan.project_ideas.slice(0, 4).map((project, index) => (
                       <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                        <h5 className="font-medium text-gray-900 dark:text-white mb-2">{project.title}</h5>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">{project.description}</p>
+                        <div className="flex justify-between items-start mb-3">
+                          <h5 className="font-medium text-gray-900 dark:text-white">{project.title}</h5>
+                          <div className="flex gap-2">
+                            <span className="px-2 py-1 text-xs bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-200 rounded">
+                              {project.difficulty}
+                            </span>
+                            {project.duration_weeks && (
+                              <span className="px-2 py-1 text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded">
+                                {project.duration_weeks}w
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Project Description with formatted paragraphs */}
+                        <div className="text-gray-600 dark:text-gray-300 text-sm mb-3 space-y-2">
+                          {project.description && project.description.split('\\n\\n').map((paragraph, pIdx) => (
+                            paragraph.trim() && (
+                              <p key={pIdx} className="leading-relaxed">
+                                {paragraph.trim()}
+                              </p>
+                            )
+                          ))}
+                        </div>
+                        
+                        {/* Technologies */}
+                        {project.technologies && project.technologies.length > 0 && (
+                          <div className="mb-2">
+                            <div className="flex flex-wrap gap-1">
+                              {project.technologies.slice(0, 6).map((tech, techIdx) => (
+                                <span key={techIdx} className="px-2 py-1 text-xs bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 rounded">
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
                         <div className="text-xs text-gray-500 dark:text-gray-400">
-                          {project.estimated_hours}h • {project.difficulty}
+                          {project.estimated_hours && `${project.estimated_hours}h`}
                         </div>
                       </div>
                     ))}
