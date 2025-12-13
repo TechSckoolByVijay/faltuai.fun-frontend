@@ -15,8 +15,10 @@ import Dashboard from './pages/Dashboard.jsx';
 import LoginCallback from './pages/LoginCallback.jsx';
 
 // Features
-import Feature1Page from './features/feature1/Feature1Page.jsx';
 import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
+import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
+import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
+import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
 
 // Debug
 import DebugInfo from './debug.jsx';
@@ -63,19 +65,37 @@ function App() {
             />
             
             <Route 
-              path="/feature1" 
+              path="/resume-roast" 
               element={
                 <ProtectedRoute>
-                  <Feature1Page />
+                  <ResumeRoastPage />
                 </ProtectedRoute>
               } 
             />
             
             <Route 
-              path="/resume-roast" 
+              path="/skill-assessment" 
               element={
                 <ProtectedRoute>
-                  <ResumeRoastPage />
+                  <SkillAssessmentStart />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/skill-assessment/quiz/:assessmentId" 
+              element={
+                <ProtectedRoute>
+                  <SkillAssessmentQuiz />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/skill-assessment/results/:assessmentId" 
+              element={
+                <ProtectedRoute>
+                  <SkillAssessmentResults />
                 </ProtectedRoute>
               } 
             />

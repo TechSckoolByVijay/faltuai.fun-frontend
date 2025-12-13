@@ -7,9 +7,6 @@ export const API_ENDPOINTS = {
     GOOGLE_LOGIN: `${BACKEND_URL}/auth/google/login`,
     LOGOUT: `${BACKEND_URL}/auth/logout`,
   },
-  FEATURE1: {
-    HELLO: `${BACKEND_URL}/feature1/hello`,
-  },
   RESUME_ROAST: {
     STYLES: `${BACKEND_URL}/api/v1/resume-roast/styles`,
     ROAST_TEXT: `${BACKEND_URL}/api/v1/resume-roast/roast-text`,
@@ -22,6 +19,14 @@ export const API_ENDPOINTS = {
     UNSUBSCRIBE: `${BACKEND_URL}/api/v1/newsletter/unsubscribe`,
     CHECK_STATUS: `${BACKEND_URL}/api/v1/newsletter/check`,
     STATS: `${BACKEND_URL}/api/v1/newsletter/stats`,
+  },
+  SKILL_ASSESSMENT: {
+    START: `${BACKEND_URL}/api/v1/skill-assessment/start`,
+    SUBMIT: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/submit`,
+    LEARNING_PLAN: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/learning-plan`,
+    DASHBOARD: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/dashboard`,
+    EXPORT_PDF: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/export/pdf`,
+    LIST_ASSESSMENTS: `${BACKEND_URL}/api/v1/skill-assessment/assessments`,
   }
 };
 

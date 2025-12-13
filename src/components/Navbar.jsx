@@ -53,14 +53,14 @@ const Navbar = () => {
                   </Link>
                   
                   <Link
-                    to="/feature1"
+                    to="/skill-assessment"
                     className={`px-3 py-2 rounded-md text-sm font-medium ${
-                      isActive('/feature1') 
+                      isActive('/skill-assessment') 
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' 
                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
                     }`}
                   >
-                    Feature 1
+                    🎯 Skill Assessment
                   </Link>
                   
                   <Link

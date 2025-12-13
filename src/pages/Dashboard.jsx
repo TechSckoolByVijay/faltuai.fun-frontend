@@ -62,10 +62,10 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">⚡ Quick Actions</h3>
             <div className="space-y-3">
               <Link
-                to="/feature1"
+                to="/skill-assessment"
                 className="block w-full bg-primary-600 hover:bg-primary-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
               >
-                Try Feature 1
+                🎯 Skill Assessment
               </Link>
               <Link
                 to="/resume-roast"
@@ -73,12 +73,6 @@ const Dashboard = () => {
               >
                 🔥 Resume Roast
               </Link>
-              <button
-                disabled
-                className="block w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-center py-2 px-4 rounded-md cursor-not-allowed"
-              >
-                Feature 3 (Coming Soon)
-              </button>
               <button
                 disabled
                 className="block w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-center py-2 px-4 rounded-md cursor-not-allowed"
@@ -99,25 +93,28 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">🚀 Available Features</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Feature 1 Card */}
-            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:border-primary-300 dark:hover:border-primary-600 transition duration-200 bg-gray-50 dark:bg-gray-800">
+            {/* Skill Assessment Card */}
+            <div className="border border-primary-200 dark:border-primary-800 rounded-lg p-6 hover:border-primary-300 dark:hover:border-primary-700 transition duration-200 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-950 dark:to-blue-950">
               <div className="flex items-center mb-4">
                 <div className="bg-primary-100 dark:bg-primary-900 p-3 rounded-lg">
                   <span className="text-2xl">🎯</span>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Feature 1</h3>
-                  <span className="text-sm text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900 px-2 py-1 rounded">Available</span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Skill Assessment</h3>
+                  <div className="flex gap-2">
+                    <span className="text-sm text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900 px-2 py-1 rounded">Available</span>
+                    <span className="text-sm text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">🤖 AI-Powered</span>
+                  </div>
                 </div>
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                This is your first feature! Explore the capabilities and see what it can do for you.
+                Take a personalized skill evaluation and get a curated learning roadmap tailored to your expertise level and career goals.
               </p>
               <Link
-                to="/feature1"
+                to="/skill-assessment"
                 className="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition duration-200"
               >
-                Try Now →
+                🎯 Start Assessment →
               </Link>
             </div>
 
