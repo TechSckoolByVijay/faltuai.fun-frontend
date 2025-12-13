@@ -199,7 +199,7 @@ const LandingPage = () => {
                 Powered by curiosity. Driven by that little extra.
               </p>
               <div className="flex flex-col sm:flex-row justify-center md:justify-end items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-500 dark:text-gray-400">
-                <p>&copy; 2024 {CONFIG.APP_NAME}. Built with React, FastAPI, and lots of ❤️</p>
+                <p>&copy; 2025 {CONFIG.APP_NAME}. Built with React, FastAPI, and lots of ❤️</p>
                 <div className="flex space-x-4">
                   <a href="#" className="hover:text-primary-500 transition duration-200">Privacy</a>
                   <a href="#" className="hover:text-primary-500 transition duration-200">Terms</a>

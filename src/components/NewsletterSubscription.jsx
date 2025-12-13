@@ -55,9 +55,18 @@ const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
           <h3 className="text-lg font-semibold text-green-800 dark:text-green-100 mb-2">
             Welcome to the FaltooAI Community!
           </h3>
-          <p className="text-green-700 dark:text-green-200 text-sm">
+          <p className="text-green-700 dark:text-green-200 text-sm mb-4">
             {message}
           </p>
+          <button
+            onClick={() => {
+              setIsSubscribed(false);
+              setMessage('');
+            }}
+            className="text-sm text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200 underline"
+          >
+            Subscribe another email
+          </button>
         </div>
       </div>
     );
@@ -65,16 +74,16 @@ const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
 
   if (variant === 'hero') {
     return (
-      <div className={`newsletter-hero bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-950 dark:to-accent-950 border border-primary-200 dark:border-primary-800 rounded-xl p-8 ${className}`}>
+      <div className={`newsletter-hero bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl p-8 shadow-lg dark:shadow-gray-900/20 ${className}`}>
         <div className="text-center mb-6">
           <div className="text-5xl mb-4">📧</div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
             Stay Ahead in the AI Race
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
-            Get our <strong>monthly newsletter</strong> with curated AI insights, trends, and updates. 
+          <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed max-w-2xl mx-auto">
+            Get our <strong className="text-gray-900 dark:text-white">monthly newsletter</strong> with curated AI insights, trends, and updates. 
             <br />
-            <span className="text-primary-600 dark:text-primary-400 font-medium">
+            <span className="text-blue-600 dark:text-blue-400 font-medium">
               No spam, just a 2-minute read to keep you ahead of the curve.
             </span>
           </p>
@@ -87,14 +96,14 @@ const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition duration-200"
+              className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition duration-200"
               disabled={isLoading}
               required
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-primary-400 text-white font-medium rounded-lg transition duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed min-w-[120px]"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:disabled:bg-blue-400 text-white font-medium rounded-lg transition duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed min-w-[120px]"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -108,13 +117,13 @@ const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
         </form>
         
         {message && (
-          <div className={`mt-4 text-center text-sm ${message.includes('error') || message.includes('failed') ? 'text-red-600 dark:text-red-400' : 'text-primary-600 dark:text-primary-400'}`}>
+          <div className={`mt-4 text-center text-sm font-medium ${message.includes('error') || message.includes('failed') ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-blue-400'}`}>
             {message}
           </div>
         )}
         
         <div className="mt-6 text-center">
-          <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-2">
+          <p className="text-xs text-gray-600 dark:text-gray-300 flex items-center justify-center gap-2">
             <span>🔒</span>
             We respect your privacy. Unsubscribe at any time.
           </p>

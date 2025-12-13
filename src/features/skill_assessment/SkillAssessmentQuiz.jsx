@@ -15,14 +15,19 @@ const SkillAssessmentQuiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState('');
 
   useEffect(() => {
-    // Get assessment data from navigation state or fetch it
+    // Get assessment data from navigation state
     if (location.state?.assessmentData) {
+      console.log('Assessment data received:', location.state.assessmentData);
       setAssessmentData(location.state.assessmentData);
       setTimeLeft(location.state.assessmentData.estimated_minutes * 60); // Convert to seconds
     } else {
-      // TODO: Fetch assessment data if not provided
-      console.error('No assessment data provided');
-      navigate('/skill-assessment');
+      console.error('No assessment data provided in navigation state');
+      // Show error and redirect back to start
+      setTimeout(() => {
+        navigate('/skill-assessment', { 
+          state: { error: 'Assessment session expired. Please start a new assessment.' }
+        });
+      }, 3000);
     }
   }, [location.state, navigate]);
 
@@ -122,8 +127,14 @@ const SkillAssessmentQuiz = () => {
 
   if (!assessmentData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading assessment...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            If this takes too long, you'll be redirected to start a new assessment.
+          </p>
+        </div>
       </div>
     );
   }
