@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../../auth/authService.js';
 
 const POPULAR_TOPICS = [
   { id: 'frontend', name: '🎨 Frontend Development', description: 'React, Vue, Angular, CSS, JavaScript' },
@@ -55,7 +56,16 @@ const SkillAssessmentStart = () => {
     
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getToken();
+      
+      if (!token || !authService.isAuthenticated()) {
+        alert('Please log in to continue. You will be redirected to the login page.');
+        window.location.href = '/';
+        return;
+      }
+
+      console.log('Making request with token:', token ? 'Token exists' : 'No token');
+      
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/start`, {
         method: 'POST',
         headers: {
@@ -68,8 +78,17 @@ const SkillAssessmentStart = () => {
         })
       });
 
+      console.log('Response status:', response.status);
+      
+      if (response.status === 401) {
+        alert('Your session has expired. Please log in again.');
+        authService.logout();
+        return;
+      }
+
       if (!response.ok) {
-        throw new Error('Failed to start assessment');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Failed to start assessment');
       }
 
       const data = await response.json();
@@ -81,7 +100,7 @@ const SkillAssessmentStart = () => {
       
     } catch (error) {
       console.error('Error starting assessment:', error);
-      alert('Failed to start assessment. Please try again.');
+      alert(`Failed to start assessment: ${error.message}. Please try again.`);
     } finally {
       setIsLoading(false);
     }

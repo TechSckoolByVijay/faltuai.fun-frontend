@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { authService } from '../../auth/authService.js';
 
 const SkillAssessmentResults = () => {
   const { assessmentId } = useParams();
@@ -22,7 +23,7 @@ const SkillAssessmentResults = () => {
 
   const fetchEvaluationData = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/dashboard`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -42,7 +43,7 @@ const SkillAssessmentResults = () => {
   const generateLearningPlan = async () => {
     setIsGeneratingPlan(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/learning-plan`, {
         method: 'POST',
         headers: {
@@ -67,7 +68,7 @@ const SkillAssessmentResults = () => {
   const exportToPDF = async () => {
     setIsExporting(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/export/pdf`, {
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { authService } from '../../auth/authService.js';
 
 const SkillAssessmentQuiz = () => {
   const { assessmentId } = useParams();
@@ -88,7 +89,7 @@ const SkillAssessmentQuiz = () => {
     setIsSubmitting(true);
     
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/submit`, {
         method: 'POST',
         headers: {
