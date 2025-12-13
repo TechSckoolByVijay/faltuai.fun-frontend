@@ -355,7 +355,7 @@ const SkillAssessmentResults = () => {
                         </div>
                         <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">{module.description}</p>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
-                          Estimated: {module.estimated_weeks} weeks
+                          Estimated: {module.duration_weeks} weeks
                         </div>
                       </div>
                     ))}
