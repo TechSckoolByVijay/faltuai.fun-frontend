@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
 import { CONFIG } from '../config/backend.js';
+import NewsletterSubscription from '../components/NewsletterSubscription.jsx';
 
 /**
  * Landing Page - FaltooAI Brand Experience
@@ -87,6 +88,11 @@ const LandingPage = () => {
           )}
         </div>
       </header>
+
+      {/* Newsletter Subscription Section */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <NewsletterSubscription variant="hero" />
+      </section>
 
       {/* What FaltooAI Stands For Section */}
       <section id="about" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -181,15 +187,23 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-white dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">
-              Powered by curiosity. Driven by that little extra.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-500 dark:text-gray-400">
-              <p>&copy; 2024 {CONFIG.APP_NAME}. Built with React, FastAPI, and lots of ❤️</p>
-              <div className="flex space-x-4">
-                <a href="#" className="hover:text-primary-500 transition duration-200">Privacy</a>
-                <a href="#" className="hover:text-primary-500 transition duration-200">Terms</a>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Footer Newsletter */}
+            <div className="order-2 md:order-1">
+              <NewsletterSubscription variant="compact" />
+            </div>
+            
+            {/* Footer Info */}
+            <div className="text-center md:text-right order-1 md:order-2">
+              <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">
+                Powered by curiosity. Driven by that little extra.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center md:justify-end items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                <p>&copy; 2024 {CONFIG.APP_NAME}. Built with React, FastAPI, and lots of ❤️</p>
+                <div className="flex space-x-4">
+                  <a href="#" className="hover:text-primary-500 transition duration-200">Privacy</a>
+                  <a href="#" className="hover:text-primary-500 transition duration-200">Terms</a>
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
+import NewsletterSubscription from '../components/NewsletterSubscription.jsx';
 
 /**
  * Dashboard Page - Main user dashboard after login
@@ -85,6 +86,11 @@ const Dashboard = () => {
                 Feature 3 (Coming Soon)
               </button>
             </div>
+          </div>
+
+          {/* Newsletter Subscription */}
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow dark:shadow-gray-800 p-6 border border-gray-200 dark:border-gray-700">
+            <NewsletterSubscription variant="default" />
           </div>
         </div>
 
