@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CONFIG } from '../config/backend.js';
+import { CONFIG, API_ENDPOINTS } from '../config/backend.js';
 
 const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
   const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ const NewsletterSubscription = ({ variant = 'default', className = '' }) => {
     setMessage('');
 
     try {
-      const response = await fetch(`${CONFIG.BACKEND_URL}/api/v1/newsletter/subscribe`, {
+      const response = await fetch(API_ENDPOINTS.NEWSLETTER.SUBSCRIBE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -16,6 +16,12 @@ export const API_ENDPOINTS = {
     UPLOAD_AND_ROAST: `${BACKEND_URL}/api/v1/resume-roast/upload-and-roast`,
     EXTRACT_TEXT: `${BACKEND_URL}/api/v1/resume-roast/extract-text`,
     DEMO: `${BACKEND_URL}/api/v1/resume-roast/demo`,
+  },
+  NEWSLETTER: {
+    SUBSCRIBE: `${BACKEND_URL}/api/v1/newsletter/subscribe`,
+    UNSUBSCRIBE: `${BACKEND_URL}/api/v1/newsletter/unsubscribe`,
+    CHECK_STATUS: `${BACKEND_URL}/api/v1/newsletter/check`,
+    STATS: `${BACKEND_URL}/api/v1/newsletter/stats`,
   }
 };
 
@@ -25,5 +31,6 @@ export const CONFIG = {
   TAGLINE: 'Small Extras. Big Productivity.',
   DESCRIPTION: 'Because a Little Extra Creates Big Value',
   VERSION: '1.0.0',
-  ENVIRONMENT: import.meta.env.MODE || 'development'
+  ENVIRONMENT: import.meta.env.MODE || 'development',
+  BACKEND_URL: BACKEND_URL
 };
