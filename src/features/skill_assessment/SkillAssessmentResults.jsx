@@ -53,6 +53,9 @@ const SkillAssessmentResults = () => {
 
       if (response.ok) {
         const planData = await response.json();
+        console.log('📊 Learning Plan Data:', planData);
+        console.log('📊 Market Research Insights:', planData.market_research_insights);
+        console.log('📊 Market Demand:', planData.market_research_insights?.market_demand);
         setLearningPlan(planData);
       } else {
         throw new Error('Failed to generate learning plan');
