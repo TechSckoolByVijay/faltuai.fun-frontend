@@ -11,6 +11,9 @@ const SkillAssessmentResults = () => {
   const [learningPlan, setLearningPlan] = useState(null);
   const [isGeneratingPlan, setIsGeneratingPlan] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [progressStage, setProgressStage] = useState('');
+  const [progressMessage, setProgressMessage] = useState('');
+  const [progressPercent, setProgressPercent] = useState(0);
 
   useEffect(() => {
     if (location.state?.evaluationData) {
@@ -46,6 +49,33 @@ const SkillAssessmentResults = () => {
 
   const generateLearningPlan = async () => {
     setIsGeneratingPlan(true);
+    
+    // Static progress messages that scroll
+    const progressSteps = [
+      { stage: 'market_research', message: '🔍 Conducting thorough market research to identify current trends and opportunities...', progress: 15, duration: 8000 },
+      { stage: 'skill_analysis', message: '📊 Carefully analyzing your strengths and weaknesses based on assessment results...', progress: 30, duration: 10000 },
+      { stage: 'objectives', message: '🎯 Defining personalized learning objectives tailored to your career goals...', progress: 45, duration: 12000 },
+      { stage: 'curriculum', message: '📚 Creating a curated learning plan with industry-relevant resources and pathways...', progress: 60, duration: 15000 },
+      { stage: 'resources', message: '📌 Gathering high-quality courses, tutorials, and learning materials for you...', progress: 75, duration: 12000 },
+      { stage: 'projects', message: '🛠️ Designing hands-on project ideas to build your portfolio and practical skills...', progress: 90, duration: 10000 }
+    ];
+    
+    let currentStep = 0;
+    setProgressStage(progressSteps[0].stage);
+    setProgressMessage(progressSteps[0].message);
+    setProgressPercent(progressSteps[0].progress);
+    
+    // Start cycling through messages
+    const progressInterval = setInterval(() => {
+      currentStep++;
+      if (currentStep < progressSteps.length) {
+        const step = progressSteps[currentStep];
+        setProgressStage(step.stage);
+        setProgressMessage(step.message);
+        setProgressPercent(step.progress);
+      }
+    }, 12000); // Change message every 12 seconds
+    
     try {
       const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/learning-plan`, {
@@ -55,20 +85,26 @@ const SkillAssessmentResults = () => {
         }
       });
 
+      clearInterval(progressInterval);
+      
       if (response.ok) {
         const planData = await response.json();
-        console.log('📊 Learning Plan Data:', planData);
-        console.log('📊 Market Research Insights:', planData.market_research_insights);
-        console.log('📊 Market Demand:', planData.market_research_insights?.market_demand);
-        setLearningPlan(planData);
+        setProgressPercent(100);
+        setProgressMessage('✅ Learning plan generated successfully!');
+        
+        // Wait a moment to show completion
+        setTimeout(() => {
+          setLearningPlan(planData);
+          setIsGeneratingPlan(false);
+        }, 1000);
       } else {
         throw new Error('Failed to generate learning plan');
       }
     } catch (error) {
+      clearInterval(progressInterval);
       console.error('Error generating learning plan:', error);
-      alert('Failed to generate learning plan. Please try again.');
-    } finally {
       setIsGeneratingPlan(false);
+      alert('Failed to generate learning plan. Please try again.');
     }
   };
 
@@ -279,6 +315,65 @@ const SkillAssessmentResults = () => {
               )}
             </div>
           </div>
+
+          {/* Real-Time Progress Indicator */}
+          {isGeneratingPlan && (
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
+              <div className="space-y-4">
+                {/* Progress Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      Creating Your Personalized Learning Roadmap
+                    </h3>
+                  </div>
+                  <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    {progressPercent}%
+                  </span>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out"
+                    style={{ width: `${progressPercent}%` }}
+                  >
+                  </div>
+                </div>
+
+                {/* Current Stage Message */}
+                <div className="flex items-start space-x-3 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                  <span className="text-2xl">
+                    {progressStage === 'market_research' && '🔍'}
+                    {progressStage === 'skill_gaps' && '📊'}
+                    {progressStage === 'objectives' && '🎯'}
+                    {progressStage === 'curriculum' && '📚'}
+                    {progressStage === 'resources' && '📌'}
+                    {progressStage === 'projects' && '🛠️'}
+                    {progressStage === 'assembly' && '✨'}
+                    {!progressStage && '⏳'}
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-gray-900 dark:text-white font-medium">
+                      {progressMessage || 'Preparing to generate your learning plan...'}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      💡 Good things take time! We're doing comprehensive market research to create a plan tailored just for you.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Fun Facts Carousel */}
+                <div className="text-center text-sm text-gray-600 dark:text-gray-400 italic">
+                  {progressPercent < 30 && "🌟 Analyzing current job market trends..."}
+                  {progressPercent >= 30 && progressPercent < 60 && "🚀 Identifying skill gaps and designing curriculum..."}
+                  {progressPercent >= 60 && progressPercent < 90 && "🎓 Curating best learning resources and project ideas..."}
+                  {progressPercent >= 90 && "✅ Finalizing your personalized roadmap..."}
+                </div>
+              </div>
+            </div>
+          )}
 
           {learningPlan ? (
             <div className="space-y-6">
@@ -559,25 +654,38 @@ const SkillAssessmentResults = () => {
                       {learningPlan.market_research_insights.career_paths?.real_salary_data && 
                        learningPlan.market_research_insights.career_paths.real_salary_data.length > 0 && (
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             💰 Real Salary Data (from job postings)
+                          </div>
+                          <div className="text-xs text-yellow-600 dark:text-yellow-400 mb-3 bg-yellow-50 dark:bg-yellow-900/20 p-2 rounded">
+                            ⚠️ Note: Salaries shown in original currency from source. Currency and location may vary by link.
                           </div>
                           <div className="space-y-2">
                             {(learningPlan.market_research_insights.career_paths.real_salary_data || []).slice(0, 5).map((data, idx) => {
                               const salaryText = Array.isArray(data.salary_mention) 
                                 ? data.salary_mention.join(' - ') 
                                 : (data.salary || data.range || 'N/A');
+                              const currency = data.currency || 'USD';
+                              const location = data.location || 'Global';
+                              
                               return (
                                 <a key={idx} 
                                    href={data.url || '#'} 
                                    target="_blank" 
                                    rel="noopener noreferrer"
-                                   className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors border-l-4 border-green-500">
-                                  <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{data.title || data.role}</span>
-                                  <span className="text-sm font-bold text-green-600 dark:text-green-400 ml-2">
-                                    {salaryText}
-                                  </span>
-                                  <span className="text-blue-500 ml-2">🔗</span>
+                                   className="block p-3 bg-green-50 dark:bg-green-900/20 rounded hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors border-l-4 border-green-500">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{data.title || data.role}</span>
+                                    <span className="text-blue-500 ml-2">🔗</span>
+                                  </div>
+                                  <div className="flex items-center justify-between mt-1">
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                                      📍 {location} • {currency}
+                                    </span>
+                                    <span className="text-sm font-bold text-green-600 dark:text-green-400">
+                                      {salaryText}
+                                    </span>
+                                  </div>
                                 </a>
                               );
                             })}

@@ -64,7 +64,22 @@ const SkillAssessmentQuiz = () => {
       [currentQuestion.id]: {
         question_id: currentQuestion.id,
         user_answer: optionText,
-        time_taken: 60 - (timeLeft % 60) // Simple time tracking per question
+        time_taken: 60 - (timeLeft % 60), // Simple time tracking per question
+        is_unsure: false
+      }
+    }));
+  };
+
+  const handleNotSure = () => {
+    const notSureAnswer = "Not Sure";
+    setSelectedAnswer(notSureAnswer);
+    setAnswers(prev => ({
+      ...prev,
+      [currentQuestion.id]: {
+        question_id: currentQuestion.id,
+        user_answer: notSureAnswer,
+        time_taken: 60 - (timeLeft % 60),
+        is_unsure: true
       }
     }));
   };
@@ -219,6 +234,24 @@ const SkillAssessmentQuiz = () => {
                 </div>
               </button>
             ))}
+            
+            {/* Not Sure Option */}
+            <button
+              onClick={handleNotSure}
+              className={`w-full p-4 text-center border-2 rounded-lg transition-all duration-200 ${ selectedAnswer === 'Not Sure'
+                  ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+                  : 'border-yellow-200 dark:border-yellow-600 hover:border-yellow-400 dark:hover:border-yellow-500'
+              }`}
+            >
+              <div className="flex items-center justify-center">
+                <span className="text-lg mr-2">🤔</span>
+                <span className={`font-medium ${
+                  selectedAnswer === 'Not Sure'
+                    ? 'text-yellow-700 dark:text-yellow-300'
+                    : 'text-yellow-600 dark:text-yellow-400'
+                }`}>Not Sure - Need to Learn This</span>
+              </div>
+            </button>
           </div>
         </div>
 

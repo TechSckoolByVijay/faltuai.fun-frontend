@@ -163,22 +163,22 @@ const ResumeRoastPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-500 to-orange-600 rounded-lg shadow-lg p-8 mb-8 text-white">
+        <div className="bg-gradient-to-r from-red-500 to-orange-600 dark:from-red-600 dark:to-orange-700 rounded-lg shadow-lg p-8 mb-8 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-2">
                 🔥 Resume Roaster
               </h1>
-              <p className="text-red-100 text-lg">
+              <p className="text-red-100 dark:text-orange-100 text-lg">
                 Get your resume roasted by AI - because honesty hurts, but it helps!
               </p>
             </div>
             <div className="text-right">
-              <div className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-semibold">
+              <div className="bg-yellow-400 dark:bg-yellow-500 text-yellow-900 dark:text-yellow-950 px-3 py-1 rounded-full text-sm font-semibold">
                 💎 PREMIUM FEATURE
               </div>
             </div>
@@ -187,42 +187,42 @@ const ResumeRoastPage = () => {
 
         {/* Features Info */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
             <div className="text-2xl mb-2">😂</div>
-            <h3 className="font-semibold">Funny Roasts</h3>
-            <p className="text-sm text-gray-600">Humorous feedback</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Funny Roasts</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Humorous feedback</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
             <div className="text-2xl mb-2">💼</div>
-            <h3 className="font-semibold">Professional</h3>
-            <p className="text-sm text-gray-600">Constructive advice</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Professional</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Constructive advice</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
             <div className="text-2xl mb-2">💀</div>
-            <h3 className="font-semibold">Brutal Honesty</h3>
-            <p className="text-sm text-gray-600">No holds barred</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Brutal Honesty</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">No holds barred</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow text-center">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
             <div className="text-2xl mb-2">📈</div>
-            <h3 className="font-semibold">Actionable Tips</h3>
-            <p className="text-sm text-gray-600">Specific improvements</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Actionable Tips</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Specific improvements</p>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6">Upload Your Resume</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Upload Your Resume</h2>
 
             {/* Style Selection */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Choose Roasting Style:
               </label>
               <select
                 value={selectedStyle}
                 onChange={(e) => setSelectedStyle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-600"
               >
                 {Object.entries(roastStyles).map(([key, style]) => (
                   <option key={key} value={key}>
@@ -233,13 +233,13 @@ const ResumeRoastPage = () => {
             </div>
 
             {/* Tab Navigation */}
-            <div className="flex mb-4 border-b">
+            <div className="flex mb-4 border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => setActiveTab('text')}
                 className={`px-4 py-2 font-medium ${
                   activeTab === 'text' 
-                    ? 'text-red-600 border-b-2 border-red-600' 
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-400' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
                 📝 Paste Text
@@ -248,8 +248,8 @@ const ResumeRoastPage = () => {
                 onClick={() => setActiveTab('file')}
                 className={`px-4 py-2 font-medium ${
                   activeTab === 'file' 
-                    ? 'text-red-600 border-b-2 border-red-600' 
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-400' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
                 📄 Upload File
@@ -263,16 +263,16 @@ const ResumeRoastPage = () => {
                   value={resumeText}
                   onChange={(e) => setResumeText(e.target.value)}
                   placeholder="Paste your resume content here... (minimum 50 characters)"
-                  className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full h-40 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-600"
                 />
                 <div className="flex justify-between items-center mt-4">
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
                     {resumeText.length} characters
                   </span>
                   <button
                     onClick={handleTextRoast}
                     disabled={loading || resumeText.length < 50}
-                    className="bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg font-medium transition duration-200"
+                    className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 disabled:bg-gray-400 dark:disabled:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200"
                   >
                     {loading ? 'Roasting...' : '🔥 Roast My Resume!'}
                   </button>
@@ -289,15 +289,15 @@ const ResumeRoastPage = () => {
                   onDrop={handleDrop}
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition duration-200 ${
                     dragOver 
-                      ? 'border-red-500 bg-red-50' 
-                      : 'border-gray-300 hover:border-red-400'
+                      ? 'border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-900/20' 
+                      : 'border-gray-300 dark:border-gray-600 hover:border-red-400 dark:hover:border-red-500'
                   }`}
                 >
                   <div className="text-4xl mb-4">📁</div>
-                  <p className="text-lg font-medium mb-2">
+                  <p className="text-lg font-medium mb-2 text-gray-900 dark:text-white">
                     Drop your resume here or click to select
                   </p>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                     Supports PDF and TXT files (max 10MB)
                   </p>
                   <input
@@ -309,13 +309,13 @@ const ResumeRoastPage = () => {
                   />
                   <label
                     htmlFor="resume-upload"
-                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium cursor-pointer transition duration-200"
+                    className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-6 py-2 rounded-lg font-medium cursor-pointer transition duration-200 inline-block"
                   >
                     Select File
                   </label>
                   
                   {selectedFile && (
-                    <div className="mt-4 text-sm text-gray-600">
+                    <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
                       Selected: {selectedFile.name}
                     </div>
                   )}
@@ -324,10 +324,10 @@ const ResumeRoastPage = () => {
             )}
 
             {/* Demo Button */}
-            <div className="mt-6 pt-6 border-t">
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={tryDemo}
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
+                className="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
               >
                 🎭 Try Demo (Sample Resume)
               </button>
@@ -335,24 +335,24 @@ const ResumeRoastPage = () => {
 
             {/* Error Display */}
             {error && (
-              <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
                 <div className="flex">
-                  <div className="text-red-400 mr-3">❌</div>
-                  <p className="text-red-700">{error}</p>
+                  <div className="text-red-400 dark:text-red-500 mr-3">❌</div>
+                  <p className="text-red-700 dark:text-red-400">{error}</p>
                 </div>
               </div>
             )}
           </div>
 
           {/* Results Section */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6">Roasting Results</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Roasting Results</h2>
 
             {loading && (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-500 mx-auto mb-4"></div>
-                <p className="text-gray-600">🔥 Roasting in progress...</p>
-                <p className="text-sm text-gray-500 mt-2">This might take a few seconds</p>
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-500 dark:border-red-400 mx-auto mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-400">🔥 Roasting in progress...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">This might take a few seconds</p>
               </div>
             )}
 
@@ -360,21 +360,21 @@ const ResumeRoastPage = () => {
               <div className="space-y-6">
                 {/* Confidence Score */}
                 {result.confidence_score && (
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium">Hireable Score:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">Hireable Score:</span>
                       <span className={`font-bold text-lg ${
-                        result.confidence_score >= 7 ? 'text-green-600' :
-                        result.confidence_score >= 5 ? 'text-yellow-600' : 'text-red-600'
+                        result.confidence_score >= 7 ? 'text-green-600 dark:text-green-400' :
+                        result.confidence_score >= 5 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'
                       }`}>
                         {result.confidence_score}/10
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full ${
-                          result.confidence_score >= 7 ? 'bg-green-500' :
-                          result.confidence_score >= 5 ? 'bg-yellow-500' : 'bg-red-500'
+                          result.confidence_score >= 7 ? 'bg-green-500 dark:bg-green-400' :
+                          result.confidence_score >= 5 ? 'bg-yellow-500 dark:bg-yellow-400' : 'bg-red-500 dark:bg-red-400'
                         }`}
                         style={{ width: `${result.confidence_score * 10}%` }}
                       ></div>
@@ -384,11 +384,11 @@ const ResumeRoastPage = () => {
 
                 {/* Main Roast */}
                 <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
+                  <h3 className="text-lg font-semibold mb-3 flex items-center text-gray-900 dark:text-white">
                     🔥 The Roast ({result.style})
                   </h3>
-                  <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
-                    <div className="whitespace-pre-wrap text-gray-800">
+                  <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-500 p-4 rounded-r-lg">
+                    <div className="whitespace-pre-wrap text-gray-800 dark:text-gray-200">
                       {result.roast}
                     </div>
                   </div>
@@ -397,7 +397,7 @@ const ResumeRoastPage = () => {
                 {/* Suggestions */}
                 {result.suggestions && result.suggestions.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 flex items-center">
+                    <h3 className="text-lg font-semibold mb-3 flex items-center text-gray-900 dark:text-white">
                       💡 Improvement Suggestions
                     </h3>
                     <div className="space-y-2">
@@ -406,7 +406,7 @@ const ResumeRoastPage = () => {
                           <span className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-0.5">
                             {index + 1}
                           </span>
-                          <span className="text-gray-700">{suggestion}</span>
+                          <span className="text-gray-700 dark:text-gray-300">{suggestion}</span>
                         </div>
                       ))}
                     </div>
@@ -414,14 +414,14 @@ const ResumeRoastPage = () => {
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-3 pt-4 border-t">
+                <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <button
                     onClick={() => {
                       setResult(null);
                       setResumeText('');
                       setSelectedFile(null);
                     }}
-                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
+                    className="bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
                   >
                     🔄 Try Another
                   </button>
@@ -430,7 +430,7 @@ const ResumeRoastPage = () => {
                       const text = `Resume Roast Results:\n\n${result.roast}\n\nSuggestions:\n${result.suggestions?.join('\n') || 'No suggestions'}`;
                       navigator.clipboard.writeText(text);
                     }}
-                    className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
+                    className="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
                   >
                     📋 Copy Results
                   </button>
@@ -439,10 +439,10 @@ const ResumeRoastPage = () => {
             )}
 
             {!loading && !result && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                 <div className="text-6xl mb-4">🔥</div>
-                <p className="text-lg">Ready to roast your resume!</p>
-                <p className="text-sm mt-2">Upload a file or paste your resume text to get started.</p>
+                <p className="text-lg text-gray-900 dark:text-white">Ready to roast your resume!</p>
+                <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">Upload a file or paste your resume text to get started.</p>
               </div>
             )}
           </div>
@@ -452,7 +452,7 @@ const ResumeRoastPage = () => {
         <div className="mt-8 text-center">
           <Link
             to="/dashboard"
-            className="inline-block bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200"
+            className="inline-block bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition duration-200"
           >
             ← Back to Dashboard
           </Link>

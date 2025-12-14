@@ -94,25 +94,25 @@ const Dashboard = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Skill Assessment Card */}
-            <div className="border border-primary-200 dark:border-primary-800 rounded-lg p-6 hover:border-primary-300 dark:hover:border-primary-700 transition duration-200 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-950 dark:to-blue-950">
+            <div className="border border-blue-200 dark:border-blue-800 rounded-lg p-6 hover:border-blue-300 dark:hover:border-blue-700 transition duration-200 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950">
               <div className="flex items-center mb-4">
-                <div className="bg-primary-100 dark:bg-primary-900 p-3 rounded-lg">
+                <div className="bg-blue-500 dark:bg-blue-600 p-3 rounded-lg">
                   <span className="text-2xl">🎯</span>
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Skill Assessment</h3>
                   <div className="flex gap-2">
-                    <span className="text-sm text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900 px-2 py-1 rounded">Available</span>
-                    <span className="text-sm text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">🤖 AI-Powered</span>
+                    <span className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-medium">Available</span>
+                    <span className="text-sm text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-medium">🤖 AI-Powered</span>
                   </div>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-gray-700 dark:text-gray-200 mb-4">
                 Take a personalized skill evaluation and get a curated learning roadmap tailored to your expertise level and career goals.
               </p>
               <Link
                 to="/skill-assessment"
-                className="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition duration-200"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200 font-medium"
               >
                 🎯 Start Assessment →
               </Link>
