@@ -292,6 +292,299 @@ const SkillAssessmentResults = () => {
                 </div>
               </div>
 
+              {/* Market Insights Dashboard - NEW SECTION */}
+              {learningPlan.market_research_insights && (
+                <div className="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 dark:from-green-900/10 dark:via-blue-900/10 dark:to-purple-900/10 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <span className="text-2xl">📊</span>
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">Live Market Intelligence</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Real data from Serper, GitHub, YouTube & HackerNews APIs</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium text-green-800 dark:text-green-200">Live Data</span>
+                    </div>
+                  </div>
+
+                  {/* Market Demand Stats */}
+                  {learningPlan.market_research_insights.market_demand && (
+                    <div className="mb-6">
+                      <h5 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="text-lg mr-2">🔥</span>
+                        Job Market Demand
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {learningPlan.market_research_insights.market_demand.job_postings_analyzed > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                              {learningPlan.market_research_insights.market_demand.job_postings_analyzed.toLocaleString()}+
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Active Job Postings</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Analyzed from Google Search</div>
+                          </div>
+                        )}
+                        
+                        {learningPlan.market_research_insights.market_demand.remote_work_percentage > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                              {learningPlan.market_research_insights.market_demand.remote_work_percentage}%
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Remote Positions</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">From HackerNews data</div>
+                          </div>
+                        )}
+                        
+                        {learningPlan.market_research_insights.market_demand.google_search_results > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                              {(learningPlan.market_research_insights.market_demand.google_search_results / 1000).toFixed(1)}K+
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Search Results</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Serper API (Google)</div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Top Required Skills */}
+                      {learningPlan.market_research_insights.market_demand.required_skills && 
+                       learningPlan.market_research_insights.market_demand.required_skills.length > 0 && (
+                        <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            🎯 Top Skills in Job Postings (From Real Searches)
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {learningPlan.market_research_insights.market_demand.required_skills.slice(0, 10).map((skill, idx) => (
+                              <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-sm rounded-full font-medium">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Salary Mentions */}
+                      {learningPlan.market_research_insights.market_demand.salary_mentions && 
+                       learningPlan.market_research_insights.market_demand.salary_mentions.length > 0 && (
+                        <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            💰 Salary Insights (Real Data)
+                          </div>
+                          <div className="space-y-2">
+                            {learningPlan.market_research_insights.market_demand.salary_mentions.slice(0, 3).map((mention, idx) => (
+                              <div key={idx} className="text-sm text-gray-600 dark:text-gray-400 pl-3 border-l-2 border-green-500">
+                                {mention}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* GitHub Technology Adoption */}
+                  {learningPlan.market_research_insights.skill_gaps && (
+                    <div className="mb-6">
+                      <h5 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="text-lg mr-2">⭐</span>
+                        Technology Adoption (GitHub Metrics)
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {learningPlan.market_research_insights.skill_gaps.github_total_repos > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Repositories</span>
+                              <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                                {(learningPlan.market_research_insights.skill_gaps.github_total_repos / 1000).toFixed(1)}K
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                              <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style={{width: '75%'}}></div>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {learningPlan.market_research_insights.skill_gaps.github_total_stars > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Community Stars</span>
+                              <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                                {(learningPlan.market_research_insights.skill_gaps.github_total_stars / 1000).toFixed(1)}K
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full" style={{width: '85%'}}></div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Popular Repositories */}
+                      {learningPlan.market_research_insights.skill_gaps.popular_repositories && 
+                       learningPlan.market_research_insights.skill_gaps.popular_repositories.length > 0 && (
+                        <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                            🌟 Trending Repositories to Study
+                          </div>
+                          <div className="space-y-2">
+                            {learningPlan.market_research_insights.skill_gaps.popular_repositories.slice(0, 5).map((repo, idx) => (
+                              <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-900/50 rounded">
+                                <a href={repo.url} target="_blank" rel="noopener noreferrer" 
+                                   className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex-1">
+                                  {repo.name}
+                                </a>
+                                <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-400 flex items-center ml-2">
+                                  ⭐ {(repo.stars / 1000).toFixed(1)}k
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Emerging Technologies */}
+                      {learningPlan.market_research_insights.skill_gaps.emerging_technologies && 
+                       learningPlan.market_research_insights.skill_gaps.emerging_technologies.length > 0 && (
+                        <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            🚀 Emerging Technologies (GitHub Trending)
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {learningPlan.market_research_insights.skill_gaps.emerging_technologies.slice(0, 8).map((tech, idx) => (
+                              <span key={idx} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 text-sm rounded-full">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Learning Resources Stats */}
+                  {learningPlan.market_research_insights.learning_resources && (
+                    <div className="mb-6">
+                      <h5 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="text-lg mr-2">📺</span>
+                        Learning Content Available (YouTube Analytics)
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {learningPlan.market_research_insights.learning_resources.youtube_videos_found > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                              {learningPlan.market_research_insights.learning_resources.youtube_videos_found.toLocaleString()}+
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Tutorial Videos</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">YouTube API results</div>
+                          </div>
+                        )}
+                        
+                        {learningPlan.market_research_insights.learning_resources.total_views && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                              {(learningPlan.market_research_insights.learning_resources.total_views / 1000000).toFixed(1)}M+
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Views</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Community engagement</div>
+                          </div>
+                        )}
+                        
+                        {learningPlan.market_research_insights.learning_resources.average_rating > 0 && (
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                            <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                              {learningPlan.market_research_insights.learning_resources.average_rating.toFixed(1)}/5.0
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Avg. Rating</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Quality content</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Career Path & Salary Data */}
+                  {learningPlan.market_research_insights.career_paths && (
+                    <div className="mb-6">
+                      <h5 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="text-lg mr-2">💼</span>
+                        Career Path & Salary Trends
+                      </h5>
+                      
+                      {learningPlan.market_research_insights.career_paths.real_salary_data && 
+                       learningPlan.market_research_insights.career_paths.real_salary_data.length > 0 && (
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                            💰 Real Salary Data (from job postings)
+                          </div>
+                          <div className="space-y-2">
+                            {learningPlan.market_research_insights.career_paths.real_salary_data.slice(0, 5).map((data, idx) => (
+                              <div key={idx} className="flex items-center justify-between p-2 bg-green-50 dark:bg-green-900/20 rounded">
+                                <span className="text-sm text-gray-700 dark:text-gray-300">{data.title || data.role}</span>
+                                <span className="text-sm font-bold text-green-600 dark:text-green-400">
+                                  {data.salary || data.range}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Tech Trends */}
+                  {learningPlan.market_research_insights.tech_trends && (
+                    <div>
+                      <h5 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="text-lg mr-2">📰</span>
+                        Latest Industry Trends (News & Discussions)
+                      </h5>
+                      
+                      {learningPlan.market_research_insights.tech_trends.news_articles && 
+                       learningPlan.market_research_insights.tech_trends.news_articles.length > 0 && (
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                            📰 Recent News Articles (Serper API)
+                          </div>
+                          <div className="space-y-2 max-h-48 overflow-y-auto">
+                            {learningPlan.market_research_insights.tech_trends.news_articles.slice(0, 5).map((article, idx) => (
+                              <a key={idx} href={article.url || '#'} target="_blank" rel="noopener noreferrer"
+                                 className="block p-2 bg-gray-50 dark:bg-gray-900/50 rounded hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                                <div className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline line-clamp-2">
+                                  {article.title}
+                                </div>
+                                {article.date && (
+                                  <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{article.date}</div>
+                                )}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Data Source Attribution */}
+                  <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center space-x-4">
+                        <span>✅ Serper API (Google Search)</span>
+                        <span>✅ GitHub API</span>
+                        <span>✅ YouTube Data API v3</span>
+                        <span>✅ HackerNews API</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span>Updated: {new Date().toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Weekly Breakdown */}
               {learningPlan.weekly_breakdown && learningPlan.weekly_breakdown.length > 0 && (
                 <div>
@@ -521,27 +814,6 @@ const SkillAssessmentResults = () => {
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                       {learningPlan.career_progression}
                     </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Market Insights */}
-              {learningPlan.market_research_insights && (
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-4">📊 Market Insights</h4>
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                    <div className="space-y-2">
-                      {learningPlan.market_research_insights.demand_analysis && (
-                        <p className="text-sm text-green-800 dark:text-green-200">
-                          <strong>Market Demand:</strong> {learningPlan.market_research_insights.demand_analysis}
-                        </p>
-                      )}
-                      {learningPlan.market_research_insights.skill_gaps && (
-                        <p className="text-sm text-green-800 dark:text-green-200">
-                          <strong>Skill Gaps:</strong> {learningPlan.market_research_insights.skill_gaps}
-                        </p>
-                      )}
-                    </div>
                   </div>
                 </div>
               )}
