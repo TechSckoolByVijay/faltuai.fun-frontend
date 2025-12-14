@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { authService } from '../../auth/authService.js';
 
@@ -23,6 +23,7 @@ const SkillAssessmentResults = () => {
 
   const fetchEvaluationData = async () => {
     try {
+      console.log('🔍 Fetching evaluation data for assessment:', assessmentId);
       const token = authService.getToken();
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/dashboard`, {
         headers: {
@@ -32,6 +33,9 @@ const SkillAssessmentResults = () => {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('✅ Received evaluation data:', data);
+        console.log('📊 Learning plan modules count:', data.learning_plan?.learning_modules?.length);
+        console.log('📊 Market insights available:', !!data.learning_plan?.market_research_insights);
         setEvaluationData(data.evaluation);
         setLearningPlan(data.learning_plan);
       }
@@ -116,6 +120,22 @@ const SkillAssessmentResults = () => {
     return 'bg-red-100 dark:bg-red-900/20';
   };
 
+  // Memoize expensive computations
+  const limitedModules = useMemo(() => 
+    (learningPlan?.learning_modules || []).slice(0, 3),
+    [learningPlan]
+  );
+
+  const limitedStrengths = useMemo(() => 
+    (evaluationData?.strengths || []).slice(0, 10),
+    [evaluationData]
+  );
+
+  const limitedWeaknesses = useMemo(() => 
+    (evaluationData?.weaknesses || []).slice(0, 10),
+    [evaluationData]
+  );
+
   if (!evaluationData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -124,6 +144,13 @@ const SkillAssessmentResults = () => {
     );
   }
 
+  console.log('🎨 Rendering SkillAssessmentResults with:', {
+    hasEvaluation: !!evaluationData,
+    hasLearningPlan: !!learningPlan,
+    modulesCount: learningPlan?.learning_modules?.length,
+    strengthsCount: evaluationData?.strengths?.length,
+    weaknessesCount: evaluationData?.weaknesses?.length
+  });
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,7 +188,7 @@ const SkillAssessmentResults = () => {
               💪 Strengths
             </h3>
             <div className="space-y-3">
-              {evaluationData.strengths.map((strength, index) => (
+              {(evaluationData.strengths || []).slice(0, 10).map((strength, index) => (
                 <div key={index} className="flex items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <span className="text-green-600 dark:text-green-400 mr-3">✅</span>
                   <span className="text-gray-900 dark:text-white">{strength}</span>
@@ -176,7 +203,7 @@ const SkillAssessmentResults = () => {
               🎯 Areas for Improvement
             </h3>
             <div className="space-y-3">
-              {evaluationData.weaknesses.map((weakness, index) => (
+              {(evaluationData.weaknesses || []).slice(0, 10).map((weakness, index) => (
                 <div key={index} className="flex items-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <span className="text-orange-600 dark:text-orange-400 mr-3">🔄</span>
                   <span className="text-gray-900 dark:text-white">{weakness}</span>
@@ -193,7 +220,7 @@ const SkillAssessmentResults = () => {
               📊 Detailed Skill Breakdown
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {evaluationData.skill_breakdown.map((skill, index) => (
+              {(evaluationData.skill_breakdown || []).slice(0, 15).map((skill, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium text-gray-900 dark:text-white">{skill.area}</span>
@@ -286,7 +313,7 @@ const SkillAssessmentResults = () => {
                     🎯 Priority Skills
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {learningPlan.priority_skills.slice(0, 3).map((skill, index) => (
+                    {(learningPlan.priority_skills || []).slice(0, 3).map((skill, index) => (
                       <span key={index} className="px-2 py-1 bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 text-xs rounded">
                         {skill}
                       </span>
@@ -354,14 +381,14 @@ const SkillAssessmentResults = () => {
                       </div>
 
                       {/* Top Required Skills */}
-                      {learningPlan.market_research_insights.market_demand.required_skills && 
+                      {learningPlan.market_research_insights.market_demand?.required_skills && 
                        learningPlan.market_research_insights.market_demand.required_skills.length > 0 && (
                         <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             🎯 Top Skills in Job Postings (From Real Searches)
                           </div>
                           <div className="flex flex-wrap gap-2">
-                            {learningPlan.market_research_insights.market_demand.required_skills.slice(0, 10).map((skill, idx) => (
+                            {(learningPlan.market_research_insights.market_demand.required_skills || []).slice(0, 10).map((skill, idx) => (
                               <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-sm rounded-full font-medium">
                                 {skill}
                               </span>
@@ -371,16 +398,28 @@ const SkillAssessmentResults = () => {
                       )}
 
                       {/* Salary Mentions */}
-                      {learningPlan.market_research_insights.market_demand.salary_mentions && 
+                      {learningPlan.market_research_insights.market_demand?.salary_mentions && 
                        learningPlan.market_research_insights.market_demand.salary_mentions.length > 0 && (
                         <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             💰 Salary Insights (Real Data)
                           </div>
                           <div className="space-y-2">
-                            {learningPlan.market_research_insights.market_demand.salary_mentions.slice(0, 3).map((mention, idx) => (
-                              <div key={idx} className="text-sm text-gray-600 dark:text-gray-400 pl-3 border-l-2 border-green-500">
-                                {mention}
+                            {(learningPlan.market_research_insights.market_demand.salary_mentions || []).slice(0, 3).map((mention, idx) => (
+                              <div key={idx} className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border-l-4 border-green-500">
+                                <div className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                  {mention.salary_mention || mention}
+                                </div>
+                                {mention.context && (
+                                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                    {mention.context}
+                                  </div>
+                                )}
+                                {mention.source && (
+                                  <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                                    Source: {mention.source}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -427,14 +466,14 @@ const SkillAssessmentResults = () => {
                       </div>
 
                       {/* Popular Repositories */}
-                      {learningPlan.market_research_insights.skill_gaps.popular_repositories && 
+                      {learningPlan.market_research_insights.skill_gaps?.popular_repositories && 
                        learningPlan.market_research_insights.skill_gaps.popular_repositories.length > 0 && (
                         <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                             🌟 Trending Repositories to Study
                           </div>
                           <div className="space-y-2">
-                            {learningPlan.market_research_insights.skill_gaps.popular_repositories.slice(0, 5).map((repo, idx) => (
+                            {(learningPlan.market_research_insights.skill_gaps.popular_repositories || []).slice(0, 5).map((repo, idx) => (
                               <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-900/50 rounded">
                                 <a href={repo.url} target="_blank" rel="noopener noreferrer" 
                                    className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex-1">
@@ -450,14 +489,14 @@ const SkillAssessmentResults = () => {
                       )}
 
                       {/* Emerging Technologies */}
-                      {learningPlan.market_research_insights.skill_gaps.emerging_technologies && 
+                      {learningPlan.market_research_insights.skill_gaps?.emerging_technologies && 
                        learningPlan.market_research_insights.skill_gaps.emerging_technologies.length > 0 && (
                         <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                             🚀 Emerging Technologies (GitHub Trending)
                           </div>
                           <div className="flex flex-wrap gap-2">
-                            {learningPlan.market_research_insights.skill_gaps.emerging_technologies.slice(0, 8).map((tech, idx) => (
+                            {(learningPlan.market_research_insights.skill_gaps.emerging_technologies || []).slice(0, 8).map((tech, idx) => (
                               <span key={idx} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 text-sm rounded-full">
                                 {tech}
                               </span>
@@ -517,21 +556,31 @@ const SkillAssessmentResults = () => {
                         Career Path & Salary Trends
                       </h5>
                       
-                      {learningPlan.market_research_insights.career_paths.real_salary_data && 
+                      {learningPlan.market_research_insights.career_paths?.real_salary_data && 
                        learningPlan.market_research_insights.career_paths.real_salary_data.length > 0 && (
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                             💰 Real Salary Data (from job postings)
                           </div>
                           <div className="space-y-2">
-                            {learningPlan.market_research_insights.career_paths.real_salary_data.slice(0, 5).map((data, idx) => (
-                              <div key={idx} className="flex items-center justify-between p-2 bg-green-50 dark:bg-green-900/20 rounded">
-                                <span className="text-sm text-gray-700 dark:text-gray-300">{data.title || data.role}</span>
-                                <span className="text-sm font-bold text-green-600 dark:text-green-400">
-                                  {data.salary || data.range}
-                                </span>
-                              </div>
-                            ))}
+                            {(learningPlan.market_research_insights.career_paths.real_salary_data || []).slice(0, 5).map((data, idx) => {
+                              const salaryText = Array.isArray(data.salary_mention) 
+                                ? data.salary_mention.join(' - ') 
+                                : (data.salary || data.range || 'N/A');
+                              return (
+                                <a key={idx} 
+                                   href={data.url || '#'} 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors border-l-4 border-green-500">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{data.title || data.role}</span>
+                                  <span className="text-sm font-bold text-green-600 dark:text-green-400 ml-2">
+                                    {salaryText}
+                                  </span>
+                                  <span className="text-blue-500 ml-2">🔗</span>
+                                </a>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -546,22 +595,30 @@ const SkillAssessmentResults = () => {
                         Latest Industry Trends (News & Discussions)
                       </h5>
                       
-                      {learningPlan.market_research_insights.tech_trends.news_articles && 
+                      {learningPlan.market_research_insights.tech_trends?.news_articles && 
                        learningPlan.market_research_insights.tech_trends.news_articles.length > 0 && (
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                           <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                             📰 Recent News Articles (Serper API)
                           </div>
                           <div className="space-y-2 max-h-48 overflow-y-auto">
-                            {learningPlan.market_research_insights.tech_trends.news_articles.slice(0, 5).map((article, idx) => (
-                              <a key={idx} href={article.url || '#'} target="_blank" rel="noopener noreferrer"
-                                 className="block p-2 bg-gray-50 dark:bg-gray-900/50 rounded hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
-                                <div className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline line-clamp-2">
-                                  {article.title}
+                            {(learningPlan.market_research_insights.tech_trends.news_articles || []).slice(0, 5).map((article, idx) => (
+                              <a key={idx} href={article.link || article.url || '#'} target="_blank" rel="noopener noreferrer"
+                                 className="block p-3 bg-gray-50 dark:bg-gray-900/50 rounded hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors border-l-4 border-blue-500">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                                      {article.title}
+                                    </div>
+                                    {article.date && (
+                                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{article.date}</div>
+                                    )}
+                                    {article.source && (
+                                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Source: {article.source}</div>
+                                    )}
+                                  </div>
+                                  <span className="text-blue-500 ml-2">🔗</span>
                                 </div>
-                                {article.date && (
-                                  <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{article.date}</div>
-                                )}
                               </a>
                             ))}
                           </div>
@@ -593,7 +650,7 @@ const SkillAssessmentResults = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-4">📅 Weekly Learning Plan</h4>
                   <div className="space-y-3 max-h-96 overflow-y-auto">
-                    {learningPlan.weekly_breakdown.slice(0, 8).map((week, index) => (
+                    {(learningPlan.weekly_breakdown || []).slice(0, 8).map((week, index) => (
                       <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-medium text-gray-900 dark:text-white">
@@ -607,7 +664,7 @@ const SkillAssessmentResults = () => {
                           <div>
                             <strong className="text-sm text-gray-700 dark:text-gray-300">Objectives:</strong>
                             <ul className="list-disc list-inside ml-2 text-sm text-gray-600 dark:text-gray-400">
-                              {week.objectives.map((obj, objIndex) => (
+                              {(week.objectives || []).slice(0, 5).map((obj, objIndex) => (
                                 <li key={objIndex}>{obj}</li>
                               ))}
                             </ul>
@@ -637,7 +694,7 @@ const SkillAssessmentResults = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-4">📚 Learning Modules</h4>
                   <div className="space-y-4">
-                    {learningPlan.learning_modules.slice(0, 3).map((module, index) => (
+                    {(learningPlan.learning_modules || []).slice(0, 3).map((module, index) => (
                       <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-medium text-gray-900 dark:text-white">{module.title}</h5>
@@ -655,7 +712,7 @@ const SkillAssessmentResults = () => {
                         {module.weekly_breakdown && module.weekly_breakdown.length > 0 && (
                           <div className="mt-4 space-y-3 bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
                             <h6 className="font-medium text-gray-900 dark:text-white text-sm mb-3">📅 Week-by-Week Plan</h6>
-                            {module.weekly_breakdown.map((week, weekIdx) => (
+                            {(module.weekly_breakdown || []).slice(0, 4).map((week, weekIdx) => (
                               <div key={weekIdx} className="border-l-4 border-blue-500 pl-4 py-2">
                                 <div className="flex justify-between items-start mb-2">
                                   <h6 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
@@ -682,7 +739,7 @@ const SkillAssessmentResults = () => {
                                   <div className="mb-2">
                                     <strong className="text-xs text-gray-700 dark:text-gray-300">Goals:</strong>
                                     <ul className="list-disc list-inside ml-2 text-xs text-gray-600 dark:text-gray-400">
-                                      {week.goals.map((goal, gIdx) => (
+                                      {(week.goals || []).slice(0, 5).map((goal, gIdx) => (
                                         <li key={gIdx}>{goal}</li>
                                       ))}
                                     </ul>
@@ -693,7 +750,7 @@ const SkillAssessmentResults = () => {
                                   <div className="mb-2">
                                     <strong className="text-xs text-gray-700 dark:text-gray-300">Daily Plan:</strong>
                                     <ul className="ml-2 text-xs text-gray-600 dark:text-gray-400">
-                                      {week.daily_breakdown.map((day, dIdx) => (
+                                      {(week.daily_breakdown || []).slice(0, 7).map((day, dIdx) => (
                                         <li key={dIdx}>• {day}</li>
                                       ))}
                                     </ul>
@@ -704,7 +761,7 @@ const SkillAssessmentResults = () => {
                                   <div>
                                     <strong className="text-xs text-green-700 dark:text-green-300">Deliverables:</strong>
                                     <ul className="ml-2 text-xs text-gray-600 dark:text-gray-400">
-                                      {week.deliverables.map((del, delIdx) => (
+                                      {(week.deliverables || []).slice(0, 5).map((del, delIdx) => (
                                         <li key={delIdx}>✓ {del}</li>
                                       ))}
                                     </ul>
@@ -725,7 +782,7 @@ const SkillAssessmentResults = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-4">📖 Learning Resources</h4>
                   <div className="space-y-3">
-                    {learningPlan.learning_resources.slice(0, 6).map((resource, index) => (
+                    {(learningPlan.learning_resources || []).slice(0, 6).map((resource, index) => (
                       <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-medium text-gray-900 dark:text-white">{resource.title || resource.name}</h5>
@@ -760,7 +817,7 @@ const SkillAssessmentResults = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-4">🛠️ Project Ideas</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {learningPlan.project_ideas.slice(0, 4).map((project, index) => (
+                    {(learningPlan.project_ideas || []).slice(0, 4).map((project, index) => (
                       <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-3">
                           <h5 className="font-medium text-gray-900 dark:text-white">{project.title}</h5>
@@ -791,7 +848,7 @@ const SkillAssessmentResults = () => {
                         {project.technologies && project.technologies.length > 0 && (
                           <div className="mb-2">
                             <div className="flex flex-wrap gap-1">
-                              {project.technologies.slice(0, 6).map((tech, techIdx) => (
+                              {(project.technologies || []).slice(0, 6).map((tech, techIdx) => (
                                 <span key={techIdx} className="px-2 py-1 text-xs bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 rounded">
                                   {tech}
                                 </span>
