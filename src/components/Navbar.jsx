@@ -64,6 +64,17 @@ const Navbar = () => {
                   </Link>
                   
                   <Link
+                    to="/stock-analysis"
+                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                      isActive('/stock-analysis') 
+                        ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' 
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    📈 Stock Analysis
+                  </Link>
+                  
+                  <Link
                     to="/resume-roast"
                     className={`px-3 py-2 rounded-md text-sm font-medium ${
                       isActive('/resume-roast') 

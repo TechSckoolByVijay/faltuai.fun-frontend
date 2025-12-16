@@ -19,6 +19,8 @@ import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
 import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
 import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
 import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
+import StockAnalysisStart from './features/stock_analysis/StockAnalysisStart.jsx';
+import StockAnalysisReport from './features/stock_analysis/StockAnalysisReport.jsx';
 
 // Debug
 import DebugInfo from './debug.jsx';
@@ -96,6 +98,24 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SkillAssessmentResults />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/stock-analysis" 
+              element={
+                <ProtectedRoute>
+                  <StockAnalysisStart />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/stock-analysis/report/:analysisId" 
+              element={
+                <ProtectedRoute>
+                  <StockAnalysisReport />
                 </ProtectedRoute>
               } 
             />

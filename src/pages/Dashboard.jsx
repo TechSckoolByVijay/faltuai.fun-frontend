@@ -44,7 +44,7 @@ const Dashboard = () => {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Features Available:</span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">2</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">3</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Last Login:</span>
@@ -68,17 +68,17 @@ const Dashboard = () => {
                 🎯 Skill Assessment
               </Link>
               <Link
+                to="/stock-analysis"
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
+              >
+                📈 Stock Analysis
+              </Link>
+              <Link
                 to="/resume-roast"
                 className="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
               >
                 🔥 Resume Roast
               </Link>
-              <button
-                disabled
-                className="block w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-center py-2 px-4 rounded-md cursor-not-allowed"
-              >
-                Feature 3 (Coming Soon)
-              </button>
             </div>
           </div>
 
@@ -103,7 +103,7 @@ const Dashboard = () => {
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Skill Assessment</h3>
                   <div className="flex gap-2">
                     <span className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-medium">Available</span>
-                    <span className="text-sm text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-medium">🤖 AI-Powered</span>
+                    <span className="text-sm text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-medium">🤖 AI</span>
                   </div>
                 </div>
               </div>
@@ -144,6 +144,31 @@ const Dashboard = () => {
             </div>
 
             {/* Placeholder Feature 2 */}
+            <div className="border border-blue-200 dark:border-blue-800 rounded-lg p-6 hover:border-blue-300 dark:hover:border-blue-700 transition duration-200 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950">
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-500 dark:bg-blue-600 p-3 rounded-lg">
+                  <span className="text-2xl">📈</span>
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Stock Analysis</h3>
+                  <div className="flex gap-2">
+                    <span className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-medium">Available</span>
+                    <span className="text-sm text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-medium">🤖 AI</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 mb-4">
+                Get comprehensive fundamental analysis reports for stocks. AI-powered equity research with valuation, risks, and investment recommendations.
+              </p>
+              <Link
+                to="/stock-analysis"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200 font-medium"
+              >
+                📈 Analyze Stock →
+              </Link>
+            </div>
+
+            {/* Placeholder Feature 3 */}
             <div className="border border-gray-200 rounded-lg p-6 opacity-50">
               <div className="flex items-center mb-4">
                 <div className="bg-gray-100 p-3 rounded-lg">
