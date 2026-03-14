@@ -22,8 +22,6 @@ import AdminAnalyticsPage from './features/admin/AdminAnalyticsPage.jsx';
 import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
 import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
 import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
-import StockAnalysisStart from './features/stock_analysis/StockAnalysisStart.jsx';
-import StockAnalysisReport from './features/stock_analysis/StockAnalysisReport.jsx';
 
 // Debug
 import DebugInfo from './debug.jsx';
@@ -102,16 +100,6 @@ function App() {
             <Route 
               path="/skill-assessment/results/:assessmentId" 
               element={withShell(<SkillAssessmentResults />)}
-            />
-            
-            <Route 
-              path="/stock-analysis" 
-              element={withShell(<StockAnalysisStart />)}
-            />
-            
-            <Route 
-              path="/stock-analysis/report/:analysisId" 
-              element={withShell(<StockAnalysisReport />)}
             />
             
             {/* TODO: Add more feature routes here */}

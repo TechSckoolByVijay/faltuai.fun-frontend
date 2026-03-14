@@ -31,13 +31,6 @@ export const SIDEBAR_NAV_SECTIONS = [
         path: '/skill-assessment',
         description: 'AI skill evaluation and learning roadmap',
       },
-      {
-        key: 'stock-analysis',
-        label: 'Stock Analysis',
-        icon: '📈',
-        path: '/stock-analysis',
-        description: 'Fundamental analysis and research reports',
-      },
     ],
   },
   {

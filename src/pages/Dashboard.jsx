@@ -68,10 +68,10 @@ const Dashboard = () => {
                 🎯 Skill Assessment
               </Link>
               <Link
-                to="/stock-analysis"
-                className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
+                to="/email-smoothener"
+                className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
               >
-                📈 Stock Analysis
+                📨 Email Smoothener
               </Link>
               <Link
                 to="/resume-roast"
@@ -149,28 +149,28 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            {/* Placeholder Feature 2 */}
-            <div className="border border-blue-200 dark:border-blue-800 rounded-lg p-6 hover:border-blue-300 dark:hover:border-blue-700 transition duration-200 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950">
+            {/* Email Smoothener Card */}
+            <div className="border border-emerald-200 dark:border-emerald-800 rounded-lg p-6 hover:border-emerald-300 dark:hover:border-emerald-700 transition duration-200 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950">
               <div className="flex items-center mb-4">
-                <div className="bg-blue-500 dark:bg-blue-600 p-3 rounded-lg">
-                  <span className="text-2xl">📈</span>
+                <div className="bg-emerald-500 dark:bg-emerald-600 p-3 rounded-lg">
+                  <span className="text-2xl">📨</span>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Stock Analysis</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Email Smoothener</h3>
                   <div className="flex gap-2">
                     <span className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-medium">Available</span>
-                    <span className="text-sm text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-medium">🤖 AI</span>
+                    <span className="text-sm text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900 px-2 py-1 rounded font-medium">✉️ Utility</span>
                   </div>
                 </div>
               </div>
               <p className="text-gray-700 dark:text-gray-200 mb-4">
-                Get comprehensive fundamental analysis reports for stocks. AI-powered equity research with valuation, risks, and investment recommendations.
+                Check if your draft sounds polite, clear, and formal enough. Get three sendable rewrites with practical tone guidance.
               </p>
               <Link
-                to="/stock-analysis"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200 font-medium"
+                to="/email-smoothener"
+                className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md transition duration-200 font-medium"
               >
-                📈 Analyze Stock →
+                📨 Smoothen Email →
               </Link>
             </div>
 
