@@ -6,7 +6,7 @@ import { useAuth } from './auth/useAuth.js';
 import { ThemeProvider } from './contexts/ThemeContext.jsx';
 
 // Components
-import Navbar from './components/Navbar.jsx';
+import AppShell from './components/AppShell.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 // Pages
@@ -16,6 +16,9 @@ import LoginCallback from './pages/LoginCallback.jsx';
 
 // Features
 import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
+import CringeMeterPage from './features/cringe_meter/CringeMeterPage.jsx';
+import EmailSmoothenerPage from './features/email_smoothener/EmailSmoothenerPage.jsx';
+import AdminAnalyticsPage from './features/admin/AdminAnalyticsPage.jsx';
 import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
 import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
 import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
@@ -35,6 +38,12 @@ import './index.css';
 function App() {
   const { loading } = useAuth();
 
+  const withShell = (component) => (
+    <ProtectedRoute>
+      <AppShell>{component}</AppShell>
+    </ProtectedRoute>
+  );
+
   // Show loading spinner while checking auth status
   if (loading) {
     return (
@@ -48,9 +57,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <div className="App min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-50 transition-colors duration-300">
-          <Navbar />
-          <main>
-            <Routes>
+          <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth/callback" element={<LoginCallback />} />
@@ -59,65 +66,52 @@ function App() {
             {/* Protected Routes */}
             <Route 
               path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
+              element={withShell(<Dashboard />)}
             />
             
             <Route 
               path="/resume-roast" 
-              element={
-                <ProtectedRoute>
-                  <ResumeRoastPage />
-                </ProtectedRoute>
-              } 
+              element={withShell(<ResumeRoastPage />)}
+            />
+
+            <Route
+              path="/cringe-meter"
+              element={withShell(<CringeMeterPage />)}
+            />
+
+            <Route
+              path="/email-smoothener"
+              element={withShell(<EmailSmoothenerPage />)}
+            />
+
+            <Route
+              path="/admin/analytics"
+              element={withShell(<AdminAnalyticsPage />)}
             />
             
             <Route 
               path="/skill-assessment" 
-              element={
-                <ProtectedRoute>
-                  <SkillAssessmentStart />
-                </ProtectedRoute>
-              } 
+              element={withShell(<SkillAssessmentStart />)}
             />
             
             <Route 
               path="/skill-assessment/quiz/:assessmentId" 
-              element={
-                <ProtectedRoute>
-                  <SkillAssessmentQuiz />
-                </ProtectedRoute>
-              } 
+              element={withShell(<SkillAssessmentQuiz />)}
             />
             
             <Route 
               path="/skill-assessment/results/:assessmentId" 
-              element={
-                <ProtectedRoute>
-                  <SkillAssessmentResults />
-                </ProtectedRoute>
-              } 
+              element={withShell(<SkillAssessmentResults />)}
             />
             
             <Route 
               path="/stock-analysis" 
-              element={
-                <ProtectedRoute>
-                  <StockAnalysisStart />
-                </ProtectedRoute>
-              } 
+              element={withShell(<StockAnalysisStart />)}
             />
             
             <Route 
               path="/stock-analysis/report/:analysisId" 
-              element={
-                <ProtectedRoute>
-                  <StockAnalysisReport />
-                </ProtectedRoute>
-              } 
+              element={withShell(<StockAnalysisReport />)}
             />
             
             {/* TODO: Add more feature routes here */}
@@ -134,8 +128,7 @@ function App() {
             
             {/* Catch-all route - redirect to home */}
             <Route path="*" element={<LandingPage />} />
-            </Routes>
-          </main>
+          </Routes>
         </div>
       </Router>
     </ThemeProvider>

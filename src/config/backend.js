@@ -27,6 +27,17 @@ export const API_ENDPOINTS = {
     DASHBOARD: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/dashboard`,
     EXPORT_PDF: (assessmentId) => `${BACKEND_URL}/api/v1/skill-assessment/assessment/${assessmentId}/export/pdf`,
     LIST_ASSESSMENTS: `${BACKEND_URL}/api/v1/skill-assessment/assessments`,
+  },
+  CRINGE_METER: {
+    ANALYZE: `${BACKEND_URL}/api/v1/cringe/analyze`,
+  },
+  EMAIL_SMOOTHENER: {
+    SMOOTHEN: `${BACKEND_URL}/api/v1/email-smoothener/smoothen`,
+  },
+  ADMIN: {
+    OVERVIEW: `${BACKEND_URL}/api/v1/admin/analytics/overview`,
+    FEATURE_USERS: (featureKey) => `${BACKEND_URL}/api/v1/admin/analytics/features/${featureKey}/users`,
+    FEATURE_QUESTIONS: (featureKey) => `${BACKEND_URL}/api/v1/admin/analytics/features/${featureKey}/questions`,
   }
 };
 

@@ -44,7 +44,7 @@ const Dashboard = () => {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Features Available:</span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">3</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">4</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Last Login:</span>
@@ -78,6 +78,12 @@ const Dashboard = () => {
                 className="block w-full bg-red-600 hover:bg-red-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
               >
                 🔥 Resume Roast
+              </Link>
+              <Link
+                to="/cringe-meter"
+                className="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-2 px-4 rounded-md transition duration-200"
+              >
+                🤏 LinkedIn Cringe-o-Meter
               </Link>
             </div>
           </div>
@@ -168,26 +174,29 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            {/* Placeholder Feature 3 */}
-            <div className="border border-gray-200 rounded-lg p-6 opacity-50">
+            {/* LinkedIn Cringe-o-Meter Card */}
+            <div className="border border-purple-200 dark:border-purple-800 rounded-lg p-6 hover:border-purple-300 dark:hover:border-purple-700 transition duration-200 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
               <div className="flex items-center mb-4">
-                <div className="bg-gray-100 p-3 rounded-lg">
-                  <span className="text-2xl">🔮</span>
+                <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg">
+                  <span className="text-2xl">🤏</span>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-600">Feature 2</h3>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">Coming Soon</span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">LinkedIn Cringe-o-Meter</h3>
+                  <div className="flex gap-2">
+                    <span className="text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-medium">Available</span>
+                    <span className="text-sm text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900 px-2 py-1 rounded font-medium">🔥 Fun</span>
+                  </div>
                 </div>
               </div>
-              <p className="text-gray-500 mb-4">
-                Next exciting feature in development. Stay tuned for updates!
+              <p className="text-gray-700 dark:text-gray-200 mb-4">
+                Analyze performative LinkedIn posts for cringe score, detect buzzwords, and get a more human rewrite.
               </p>
-              <button
-                disabled
-                className="inline-block bg-gray-300 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed"
+              <Link
+                to="/cringe-meter"
+                className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition duration-200 font-medium"
               >
-                Coming Soon
-              </button>
+                🤏 Analyze Post →
+              </Link>
             </div>
 
             {/* Placeholder Feature 3 */}
