@@ -76,6 +76,7 @@ export const authService = {
       return {
         email: payload.sub,
         name: payload.name,
+        is_super_user: Boolean(payload.is_super_user),
         // Add more user fields as needed
       };
     } catch (error) {
