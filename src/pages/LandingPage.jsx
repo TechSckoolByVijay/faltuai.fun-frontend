@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
 import { CONFIG } from '../config/backend.js';
 import NewsletterSubscription from '../components/NewsletterSubscription.jsx';
+import ThemeToggle from '../components/ThemeToggle.jsx';
 
 /**
  * Landing Page - FaltooAI Brand Experience
@@ -12,6 +13,10 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-950 dark:to-gray-900">
+      <div className="fixed top-4 right-4 z-30">
+        <ThemeToggle className="shadow-md border border-gray-200 dark:border-gray-700" />
+      </div>
+
       {/* Hero Section */}
       <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center">
