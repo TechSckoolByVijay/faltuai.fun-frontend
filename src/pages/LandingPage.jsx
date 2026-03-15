@@ -1,15 +1,75 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
 import { CONFIG } from '../config/backend.js';
+import { SIDEBAR_NAV_SECTIONS } from '../config/features.js';
 import NewsletterSubscription from '../components/NewsletterSubscription.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+
+const TOOL_ACCENTS = {
+  'skill-assessment': {
+    iconBg: 'from-blue-500 to-indigo-500',
+    button: 'bg-blue-600 hover:bg-blue-700',
+    cta: 'Start Assessment',
+  },
+  'email-smoothener': {
+    iconBg: 'from-emerald-500 to-teal-500',
+    button: 'bg-emerald-600 hover:bg-emerald-700',
+    cta: 'Smoothen Email',
+  },
+  'resume-roast': {
+    iconBg: 'from-red-500 to-orange-500',
+    button: 'bg-red-500 hover:bg-red-600',
+    cta: 'Roast Resume',
+  },
+  'cringe-meter': {
+    iconBg: 'from-purple-500 to-pink-500',
+    button: 'bg-purple-600 hover:bg-purple-700',
+    cta: 'Analyze Post',
+  },
+  'idea-spark': {
+    iconBg: 'from-amber-400 to-yellow-500',
+    button: 'bg-blue-600 hover:bg-blue-700',
+    cta: 'Spark Ideas',
+  },
+  'name-craft': {
+    iconBg: 'from-indigo-500 to-sky-500',
+    button: 'bg-primary-500 hover:bg-primary-600',
+    cta: 'Craft Names',
+  },
+};
+
+const LANDING_TOOL_KEYS = new Set([
+  'skill-assessment',
+  'email-smoothener',
+  'resume-roast',
+  'cringe-meter',
+  'idea-spark',
+  'name-craft',
+]);
 
 /**
  * Landing Page - FaltooAI Brand Experience
  */
 const LandingPage = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, login, user } = useAuth();
+  const tools = SIDEBAR_NAV_SECTIONS
+    .flatMap((section) => section.items)
+    .filter((item) => item.path && LANDING_TOOL_KEYS.has(item.key))
+    .map((item) => ({
+      ...item,
+      ...(TOOL_ACCENTS[item.key] || {}),
+    }));
+
+  const handleToolAccess = (path) => {
+    if (isAuthenticated) {
+      navigate(path);
+      return;
+    }
+
+    login(path);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-950 dark:to-gray-900">
@@ -44,9 +104,9 @@ const LandingPage = () => {
             <a 
               href="#tools" 
               className="inline-block bg-primary-500 hover:bg-primary-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-105 shadow-lg"
-              aria-label="Try a Micro Tool"
+              aria-label="Browse Productivity Tools"
             >
-              Try a Micro Tool →
+              Browse Productivity Tools →
             </a>
             <a 
               href="#about" 
@@ -61,8 +121,8 @@ const LandingPage = () => {
           {!isAuthenticated ? (
             <div className="mb-16">
               <button
-                onClick={login}
-                className="bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-lg text-base transition duration-300 shadow-md"
+                onClick={() => login()}
+                className="bg-gradient-to-r from-accent-500 to-primary-500 hover:from-accent-400 hover:to-primary-400 text-white font-bold py-3 px-8 rounded-xl text-base transition duration-300 shadow-xl ring-4 ring-accent-300/40 dark:ring-accent-800/40 hover:scale-105 animate-pulse"
               >
                 🚀 Login with Google
               </button>
@@ -81,12 +141,6 @@ const LandingPage = () => {
                   className="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
                 >
                   Dashboard
-                </Link>
-                <Link
-                  to="/resume-roast"
-                  className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
-                >
-                  🔥 Resume Roast
                 </Link>
               </div>
             </div>
@@ -121,77 +175,41 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Micro Tools Section */}
+      {/* Productivity Tools Section */}
       <section id="tools" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Micro Tools
+            Productivity Tools
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Small tools that make a big difference. Try these AI-powered micro-utilities designed to save time and spark creativity.
+            Explore every live tool available right now. Sign in first if needed, then jump straight into the feature.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* NameCraft */}
-          <div className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group">
-            <div className="text-4xl mb-4">🧭</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">NameCraft</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Enter your project context and generate consistent, copy-ready names for repo, components, environments, and cloud resources.
-            </p>
-            <Link
-              to="/name-craft"
-              className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md"
-            >
-              Craft Names
-            </Link>
-          </div>
-
-          {/* Auto Caption */}
-          <div className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group">
-            <div className="text-4xl mb-4">🎬</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Auto Caption</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Upload a short clip and get smart scene captions with action timestamps. Great for content creators and social media managers.
-            </p>
-            <button className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md">
-              Upload Clip
-            </button>
-          </div>
-
-          {/* Idea Spark */}
-          <div className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group">
-            <div className="text-4xl mb-4">💡</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Idea Spark</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Enter a single phrase and get 10 micro-ideas to use or build. Perfect for brainstorming sessions and creative blocks.
-            </p>
-            <Link
-              to="/idea-spark"
-              className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md"
-            >
-              Spark Ideas
-            </Link>
-          </div>
-
-          {/* Existing Resume Roast Tool */}
-          <div className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group border-l-4 border-red-500">
-            <div className="text-4xl mb-4">🔥</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
-              Resume Roaster 
-              <span className="text-sm bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-200 px-2 py-1 rounded-full ml-2">Live</span>
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Get brutally honest AI feedback on your resume. Upload your CV and receive detailed roasting with actionable improvement tips.
-            </p>
-            <Link
-              to="/resume-roast"
-              className="inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md"
-            >
-              🔥 Roast My Resume
-            </Link>
-          </div>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {tools.map((tool) => (
+            <div key={tool.key} className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group">
+              <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${tool.iconBg} text-2xl mb-4 shadow-md`}>
+                {tool.icon}
+              </div>
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{tool.label}</h3>
+                <span className="text-xs bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-200 px-2 py-1 rounded-full font-medium">
+                  Live
+                </span>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed min-h-[72px]">
+                {tool.description}
+              </p>
+              <button
+                type="button"
+                onClick={() => handleToolAccess(tool.path)}
+                className={`inline-block ${tool.button} text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md`}
+              >
+                {tool.cta}
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 

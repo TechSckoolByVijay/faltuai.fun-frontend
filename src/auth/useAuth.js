@@ -30,8 +30,8 @@ export const useAuth = () => {
     setLoading(false);
   };
 
-  const login = () => {
-    authService.loginWithGoogle();
+  const login = (redirectPath) => {
+    authService.loginWithGoogle(redirectPath);
   };
 
   const logout = () => {

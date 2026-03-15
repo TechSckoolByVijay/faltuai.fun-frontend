@@ -1,5 +1,7 @@
 import { API_ENDPOINTS } from '../config/backend.js';
 
+const POST_LOGIN_REDIRECT_KEY = 'post_login_redirect';
+
 /**
  * Authentication Service
  * Handles all authentication-related operations
@@ -8,7 +10,11 @@ export const authService = {
   /**
    * Redirect user to Google OAuth login
    */
-  loginWithGoogle() {
+  loginWithGoogle(redirectPath = null) {
+    if (typeof redirectPath === 'string' && redirectPath.startsWith('/')) {
+      localStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectPath);
+    }
+
     window.location.href = API_ENDPOINTS.AUTH.GOOGLE_LOGIN;
   },
 
@@ -17,7 +23,16 @@ export const authService = {
    */
   logout() {
     localStorage.removeItem('jwt_token');
+    localStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
     window.location.href = '/';
+  },
+
+  getPostLoginRedirect() {
+    return localStorage.getItem(POST_LOGIN_REDIRECT_KEY);
+  },
+
+  clearPostLoginRedirect() {
+    localStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
   },
 
   /**
