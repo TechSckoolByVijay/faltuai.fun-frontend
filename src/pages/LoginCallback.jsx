@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { authService } from '../auth/authService.js';
 import { useAuth } from '../auth/useAuth.js';
 
 /**
@@ -26,13 +27,15 @@ const LoginCallback = () => {
       try {
         // Store token and update auth state
         handleTokenReceived(token);
+        const redirectPath = authService.getPostLoginRedirect() || '/dashboard';
+        authService.clearPostLoginRedirect();
         
         // Show success message
         console.log('Authentication successful');
         
         // Redirect to dashboard after a short delay
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate(redirectPath, { replace: true });
         }, 1500);
       } catch (error) {
         console.error('Error processing token:', error);
@@ -68,16 +71,16 @@ const LoginCallback = () => {
         </div>
         
         <p className="text-sm text-gray-500">
-          You'll be redirected to your dashboard shortly.
+          You'll be redirected shortly.
         </p>
         
         {/* Fallback Link */}
         <div className="mt-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate(authService.getPostLoginRedirect() || '/dashboard')}
             className="text-primary-600 hover:text-primary-700 text-sm underline"
           >
-            Go to Dashboard manually
+            Continue manually
           </button>
         </div>
       </div>
