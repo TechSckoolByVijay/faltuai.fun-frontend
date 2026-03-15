@@ -25,6 +25,20 @@ export const SIDEBAR_NAV_SECTIONS = [
         description: 'Vibe-check your draft with three sendable versions',
       },
       {
+        key: 'idea-spark',
+        label: 'Idea Spark',
+        icon: '💡',
+        path: '/idea-spark',
+        description: 'Turn one phrase into 10 practical micro-ideas',
+      },
+      {
+        key: 'name-craft',
+        label: 'NameCraft',
+        icon: '🧭',
+        path: '/name-craft',
+        description: 'Generate consistent naming conventions fast',
+      },
+      {
         key: 'skill-assessment',
         label: 'Skill Assessment',
         icon: '🎯',

@@ -19,6 +19,8 @@ import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
 import CringeMeterPage from './features/cringe_meter/CringeMeterPage.jsx';
 import EmailSmoothenerPage from './features/email_smoothener/EmailSmoothenerPage.jsx';
 import AdminAnalyticsPage from './features/admin/AdminAnalyticsPage.jsx';
+import IdeaSparkPage from './features/idea_spark/IdeaSparkPage.jsx';
+import NameCraftPage from './features/name_craft/NameCraftPage.jsx';
 import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
 import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
 import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
@@ -80,6 +82,16 @@ function App() {
             <Route
               path="/email-smoothener"
               element={withShell(<EmailSmoothenerPage />)}
+            />
+
+            <Route
+              path="/idea-spark"
+              element={withShell(<IdeaSparkPage />)}
+            />
+
+            <Route
+              path="/name-craft"
+              element={withShell(<NameCraftPage />)}
             />
 
             <Route
