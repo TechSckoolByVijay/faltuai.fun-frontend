@@ -18,7 +18,7 @@ const detectMood = (text = '') => {
 const getOutputTheme = (styleKey, emailText) => {
   if (styleKey === 'kind_but_firm') {
     return {
-      card: 'border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/70',
+      card: 'border-emerald-200 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-950/70',
       chip: 'bg-emerald-200/70 text-emerald-900 dark:bg-emerald-900/70 dark:text-emerald-100',
       track: 'bg-emerald-100/80 dark:bg-emerald-900/40',
     };
@@ -28,7 +28,7 @@ const getOutputTheme = (styleKey, emailText) => {
 
   if (mood === 'urgent') {
     return {
-      card: 'border-rose-300 dark:border-rose-700 bg-rose-50 dark:bg-rose-950/70',
+      card: 'border-rose-200 dark:border-rose-700 bg-rose-50/80 dark:bg-rose-950/70',
       chip: 'bg-rose-200/70 text-rose-900 dark:bg-rose-900/70 dark:text-rose-100',
       track: 'bg-rose-100/80 dark:bg-rose-900/40',
     };
@@ -36,14 +36,14 @@ const getOutputTheme = (styleKey, emailText) => {
 
   if (mood === 'positive') {
     return {
-      card: 'border-sky-300 dark:border-sky-700 bg-sky-50 dark:bg-sky-950/70',
+      card: 'border-sky-200 dark:border-sky-700 bg-sky-50/80 dark:bg-sky-950/70',
       chip: 'bg-sky-200/70 text-sky-900 dark:bg-sky-900/70 dark:text-sky-100',
       track: 'bg-sky-100/80 dark:bg-sky-900/40',
     };
   }
 
   return {
-    card: 'border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/70',
+    card: 'border-amber-200 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/70',
     chip: 'bg-amber-200/70 text-amber-900 dark:bg-amber-900/70 dark:text-amber-100',
     track: 'bg-amber-100/80 dark:bg-amber-900/40',
   };
@@ -146,30 +146,30 @@ const EmailSmoothenerPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-emerald-100/40 dark:from-gray-950 dark:via-slate-900 dark:to-black p-6 sm:p-8 text-gray-900 dark:text-gray-100">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="rounded-2xl border border-emerald-300/60 dark:border-green-500/40 bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-black/70 dark:to-black/70 p-6 shadow-xl dark:shadow-2xl">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white dark:text-green-400">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-950 dark:via-slate-900 dark:to-black">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-black/70 dark:to-black/70 rounded-xl shadow-lg dark:shadow-2xl p-8 text-white mb-8 border border-emerald-300/30 dark:border-green-500/40">
+          <h1 className="text-4xl font-bold mb-2 dark:text-green-400">
             📨 Email Smoothener
           </h1>
-          <p className="mt-2 text-emerald-50 dark:text-green-200/90">
+          <p className="text-emerald-50 dark:text-green-200/90 text-lg">
             Dump your raw draft. Get three Faltoo versions with ghosting probability so you can send and move on.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-emerald-200 dark:border-green-500/40 bg-white dark:bg-black/75 p-5 shadow-md dark:shadow-none">
+        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="bg-white dark:bg-black/75 rounded-xl shadow p-6 border border-gray-200 dark:border-green-500/40">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xl font-semibold text-slate-900 dark:text-green-300">Raw Draft Terminal</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-green-300">Raw Draft Terminal</h2>
               <button
                 onClick={loadSample}
-                className="text-xs px-4 py-2 rounded-lg border border-emerald-200 dark:border-green-500 text-emerald-700 dark:text-green-300 bg-emerald-50 hover:bg-emerald-100 dark:bg-transparent dark:hover:bg-green-900/30 font-medium"
+                className="text-sm bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-200 px-3 py-1 rounded-md hover:opacity-90"
               >
                 Load Sample
               </button>
             </div>
 
-            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 overflow-hidden shadow-sm">
+            <div className="rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-950 overflow-hidden">
               <div className="px-3 py-2 text-xs border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-mono bg-slate-50 dark:bg-slate-950">
                 email input
               </div>
@@ -177,34 +177,34 @@ const EmailSmoothenerPage = () => {
                 value={rawText}
                 onChange={(event) => setRawText(event.target.value)}
                 placeholder="Paste your anxious / blunt / messy email thoughts here..."
-                className="w-full h-72 p-4 bg-white dark:bg-slate-950 text-slate-800 dark:text-green-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono text-sm focus:outline-none"
+                className="w-full h-72 p-4 bg-white dark:bg-slate-950 text-slate-800 dark:text-green-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
-            <div className="mt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <div className="mt-4 flex items-center justify-between text-sm text-gray-500 dark:text-slate-400">
               <span>{rawText.length} chars</span>
               <button
                 onClick={handleSmoothen}
                 disabled={loading || rawText.trim().length < 10}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-semibold shadow-sm disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:text-slate-500 dark:disabled:text-slate-300"
+                className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white dark:bg-green-500 dark:hover:bg-green-400 dark:text-black px-6 py-2 rounded-lg font-medium transition"
               >
                 {loading ? 'Processing...' : 'Smoothen Draft'}
               </button>
             </div>
 
             {error && (
-              <div className="mt-3 rounded-md border border-red-300 dark:border-red-600/60 bg-red-50 dark:bg-red-950/60 px-3 py-2 text-sm text-red-700 dark:text-red-200">
+              <div className="mt-4 p-3 rounded-md bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm">
                 {error}
               </div>
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-5 shadow-md dark:shadow-none">
-            <h2 className="text-xl font-semibold mb-1 text-slate-900 dark:text-white">Faltu Output</h2>
+          <div className="bg-white dark:bg-slate-900/80 rounded-xl shadow p-6 border border-gray-200 dark:border-slate-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Faltu Output</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Three sendable versions + reply-risk vibe check.</p>
 
             {!result ? (
-              <div className="h-[26rem] rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm text-slate-500 dark:text-slate-500 text-center px-6 bg-slate-50 dark:bg-transparent">
+              <div className="h-full min-h-[280px] rounded-lg border border-dashed border-gray-300 dark:border-slate-700 flex items-center justify-center text-center text-gray-500 dark:text-gray-400 bg-transparent">
                 Run smoothening to generate Corporate Robot, Kind but Firm, and No Nonsense variants.
               </div>
             ) : (
@@ -263,7 +263,7 @@ const EmailSmoothenerPage = () => {
                   return (
                   <div
                     key={variant.style_key}
-                    className={`rounded-lg border p-4 ${theme.card}`}
+                    className={`rounded-lg border px-4 py-3 ${theme.card}`}
                   >
                     <div className="flex items-center justify-between gap-3 mb-2">
                       <h3 className="font-semibold text-gray-900 dark:text-gray-100">{variant.style_label}</h3>
