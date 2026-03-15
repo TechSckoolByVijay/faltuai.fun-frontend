@@ -128,16 +128,19 @@ const LandingPage = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Snippet Wizard */}
+          {/* NameCraft */}
           <div className="faltoo-card p-6 hover:shadow-lg transition-all duration-200 group">
-            <div className="text-4xl mb-4">✨</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Snippet Wizard</h3>
+            <div className="text-4xl mb-4">🧭</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">NameCraft</h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              Turn a messy idea into a ready-to-use code or text snippet. Perfect for developers and writers who need quick, clean formatting.
+              Enter your project context and generate consistent, copy-ready names for repo, components, environments, and cloud resources.
             </p>
-            <button className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md">
-              Try Snippet Wizard
-            </button>
+            <Link
+              to="/name-craft"
+              className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md"
+            >
+              Craft Names
+            </Link>
           </div>
 
           {/* Auto Caption */}
@@ -159,9 +162,12 @@ const LandingPage = () => {
             <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
               Enter a single phrase and get 10 micro-ideas to use or build. Perfect for brainstorming sessions and creative blocks.
             </p>
-            <button className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md">
+            <Link
+              to="/idea-spark"
+              className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200 group-hover:shadow-md"
+            >
               Spark Ideas
-            </button>
+            </Link>
           </div>
 
           {/* Existing Resume Roast Tool */}

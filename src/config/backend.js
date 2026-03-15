@@ -34,6 +34,12 @@ export const API_ENDPOINTS = {
   EMAIL_SMOOTHENER: {
     SMOOTHEN: `${BACKEND_URL}/api/v1/email-smoothener/smoothen`,
   },
+  IDEA_SPARK: {
+    GENERATE: `${BACKEND_URL}/api/v1/idea-spark/generate`,
+  },
+  NAME_CRAFT: {
+    GENERATE: `${BACKEND_URL}/api/v1/name-craft/generate`,
+  },
   ADMIN: {
     OVERVIEW: `${BACKEND_URL}/api/v1/admin/analytics/overview`,
     FEATURE_USERS: (featureKey) => `${BACKEND_URL}/api/v1/admin/analytics/features/${featureKey}/users`,
