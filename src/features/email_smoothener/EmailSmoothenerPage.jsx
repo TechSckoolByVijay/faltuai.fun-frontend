@@ -84,7 +84,7 @@ const AssessmentMeter = ({ label, score }) => {
   const styles = getMeterStyles(tone);
 
   return (
-    <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950/80 p-3 shadow-sm">
+    <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/80 p-3 shadow-sm">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm text-slate-700 dark:text-slate-200">{label}</span>
         <span className={`text-xs px-2 py-1 rounded-full ${styles.chip}`}>{score}%</span>
@@ -146,30 +146,30 @@ const EmailSmoothenerPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/40 dark:from-gray-950 dark:via-slate-900 dark:to-black p-6 sm:p-8 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-emerald-100/40 dark:from-gray-950 dark:via-slate-900 dark:to-black p-6 sm:p-8 text-gray-900 dark:text-gray-100">
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="rounded-xl border border-emerald-200 dark:border-green-500/40 bg-white/90 dark:bg-black/70 p-6 shadow-xl dark:shadow-2xl">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-emerald-700 dark:text-green-400">
+        <div className="rounded-2xl border border-emerald-300/60 dark:border-green-500/40 bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-black/70 dark:to-black/70 p-6 shadow-xl dark:shadow-2xl">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white dark:text-green-400">
             📨 Email Smoothener
           </h1>
-          <p className="mt-2 text-emerald-700/80 dark:text-green-200/90">
+          <p className="mt-2 text-emerald-50 dark:text-green-200/90">
             Dump your raw draft. Get three Faltoo versions with ghosting probability so you can send and move on.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-xl border border-emerald-200 dark:border-green-500/40 bg-white dark:bg-black/75 p-5 shadow-sm dark:shadow-none">
+          <div className="rounded-2xl border border-emerald-200 dark:border-green-500/40 bg-white dark:bg-black/75 p-5 shadow-md dark:shadow-none">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xl font-semibold text-emerald-700 dark:text-green-300">Raw Draft Terminal</h2>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-green-300">Raw Draft Terminal</h2>
               <button
                 onClick={loadSample}
-                className="text-xs px-3 py-1 rounded-md border border-emerald-300 dark:border-green-500 text-emerald-700 dark:text-green-300 hover:bg-emerald-50 dark:hover:bg-green-900/30"
+                className="text-xs px-4 py-2 rounded-lg border border-emerald-200 dark:border-green-500 text-emerald-700 dark:text-green-300 bg-emerald-50 hover:bg-emerald-100 dark:bg-transparent dark:hover:bg-green-900/30 font-medium"
               >
                 Load Sample
               </button>
             </div>
 
-            <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 overflow-hidden shadow-sm">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 overflow-hidden shadow-sm">
               <div className="px-3 py-2 text-xs border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-mono bg-slate-50 dark:bg-slate-950">
                 email input
               </div>
@@ -186,7 +186,7 @@ const EmailSmoothenerPage = () => {
               <button
                 onClick={handleSmoothen}
                 disabled={loading || rawText.trim().length < 10}
-                className="px-5 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-semibold disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:text-slate-500 dark:disabled:text-slate-300"
+                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-green-500 dark:hover:bg-green-400 text-white dark:text-black font-semibold shadow-sm disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:text-slate-500 dark:disabled:text-slate-300"
               >
                 {loading ? 'Processing...' : 'Smoothen Draft'}
               </button>
@@ -199,22 +199,22 @@ const EmailSmoothenerPage = () => {
             )}
           </div>
 
-          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/80 p-5 shadow-sm dark:shadow-none">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/80 p-5 shadow-md dark:shadow-none">
             <h2 className="text-xl font-semibold mb-1 text-slate-900 dark:text-white">Faltu Output</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Three sendable versions + reply-risk vibe check.</p>
 
             {!result ? (
-              <div className="h-[26rem] rounded-lg border border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm text-slate-500 dark:text-slate-500 text-center px-6 bg-slate-50/70 dark:bg-transparent">
+              <div className="h-[26rem] rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm text-slate-500 dark:text-slate-500 text-center px-6 bg-slate-50 dark:bg-transparent">
                 Run smoothening to generate Corporate Robot, Kind but Firm, and No Nonsense variants.
               </div>
             ) : (
               <div className="space-y-4 max-h-[35rem] overflow-y-auto pr-1">
-                <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
                   <span className="font-semibold text-slate-900 dark:text-slate-100">Overall Vibe:</span> {result.overall_vibe}
                 </div>
 
                 {result.draft_assessment && (
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/90 dark:bg-slate-900/80 p-4 space-y-3">
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/90 dark:bg-slate-900/80 p-4 space-y-3">
                     <div className="flex items-center justify-between gap-3">
                       <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Draft Quality Indicators</h3>
                       <span className={`text-xs px-2 py-1 rounded-full ${result.draft_assessment.is_good_enough ? 'bg-emerald-200/70 text-emerald-900 dark:bg-emerald-900/60 dark:text-emerald-100' : 'bg-amber-200/70 text-amber-900 dark:bg-amber-900/60 dark:text-amber-100'}`}>
@@ -251,7 +251,7 @@ const EmailSmoothenerPage = () => {
                       </div>
                     </div>
 
-                    <div className={`rounded-md px-3 py-2 text-sm ${result.draft_assessment.is_good_enough ? 'border border-emerald-700/60 bg-emerald-950/40 text-emerald-200' : 'border border-amber-700/60 bg-amber-950/40 text-amber-200'}`}>
+                    <div className={`rounded-lg px-3 py-2 text-sm ${result.draft_assessment.is_good_enough ? 'border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-700/60 dark:bg-emerald-950/40 dark:text-emerald-200' : 'border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200'}`}>
                       {result.draft_assessment.good_enough_message}
                     </div>
                   </div>
