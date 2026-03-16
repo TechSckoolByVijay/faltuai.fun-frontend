@@ -153,6 +153,23 @@ const LandingPage = () => {
         <NewsletterSubscription variant="hero" />
       </section>
 
+      {/* Product Ideas Section */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6 sm:p-8 text-center">
+          <div className="text-4xl mb-3">🚀</div>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Got a Product Idea?</h3>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-5">
+            Help shape FaltuAI.fun by suggesting the next tool or feature you'd love to use.
+          </p>
+          <Link
+            to="/product-ideas"
+            className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold px-5 py-3 rounded-lg transition duration-200"
+          >
+            Submit Product Idea →
+          </Link>
+        </div>
+      </section>
+
       {/* What FaltooAI Stands For Section */}
       <section id="about" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center">

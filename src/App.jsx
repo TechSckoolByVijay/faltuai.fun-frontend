@@ -13,6 +13,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import LoginCallback from './pages/LoginCallback.jsx';
+import ProductIdeasPage from './pages/ProductIdeasPage.jsx';
 
 // Features
 import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
@@ -60,6 +61,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/product-ideas" element={<ProductIdeasPage />} />
             <Route path="/auth/callback" element={<LoginCallback />} />
             <Route path="/debug" element={<DebugInfo />} />
             

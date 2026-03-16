@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useAuth } from '../auth/useAuth.js';
@@ -13,6 +13,23 @@ const AppShell = ({ children }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    setIsProfileMenuOpen(false);
+  }, [location.pathname]);
 
   const isRouteActive = (path) => location.pathname === path || location.pathname.startsWith(`${path}/`);
 
@@ -166,15 +183,40 @@ const AppShell = ({ children }) => {
 
             <div className="ml-auto flex items-center gap-3">
               <ThemeToggle />
-              <span className="hidden lg:inline text-sm text-gray-600 dark:text-gray-300">
-                Welcome, {user?.name || user?.email || 'User'}
-              </span>
-              <button
-                onClick={logout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200"
+              <Link
+                to="/product-ideas"
+                className="inline-flex items-center justify-center px-3 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium"
+                title="Submit product idea"
+                aria-label="Submit product idea"
               >
-                Logout
-              </button>
+                Submit Idea
+              </Link>
+
+              <div className="relative" ref={profileMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileMenuOpen((prev) => !prev)}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-200"
+                  aria-expanded={isProfileMenuOpen}
+                  aria-haspopup="menu"
+                >
+                  <span className="hidden sm:inline">Welcome, {user?.name || user?.email || 'User'}</span>
+                  <span className="sm:hidden">Me</span>
+                  <span className="text-xs">▾</span>
+                </button>
+
+                {isProfileMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-44 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg z-30 p-2">
+                    <button
+                      type="button"
+                      onClick={logout}
+                      className="w-full text-left px-3 py-2 rounded-md text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 

@@ -97,12 +97,41 @@ const Dashboard = () => {
               >
                 🧭 NameCraft
               </Link>
+              <Link
+                to="/product-ideas"
+                className="block w-full bg-amber-500 hover:bg-amber-600 text-white text-center py-2 px-4 rounded-md transition duration-200"
+              >
+                🚀 Submit Product Idea
+              </Link>
             </div>
           </div>
 
           {/* Newsletter Subscription */}
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow dark:shadow-gray-800 p-6 border border-gray-200 dark:border-gray-700">
             <NewsletterSubscription variant="default" />
+          </div>
+
+          <div className="md:col-span-2 lg:col-span-3 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 rounded-lg shadow dark:shadow-gray-800 p-6 border border-amber-200 dark:border-amber-800">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">💡</div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Help us build what matters next</h3>
+                  <p className="text-gray-700 dark:text-gray-200 mt-1 max-w-2xl">
+                    Share your tool or feature idea in under a minute. Start with title + description, then optionally add more detail.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex-shrink-0">
+                <Link
+                  to="/product-ideas"
+                  className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-200 shadow"
+                >
+                  Submit Product Idea →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

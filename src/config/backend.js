@@ -40,6 +40,13 @@ export const API_ENDPOINTS = {
   NAME_CRAFT: {
     GENERATE: `${BACKEND_URL}/api/v1/name-craft/generate`,
   },
+  PRODUCT_IDEAS: {
+    SUBMIT: `${BACKEND_URL}/api/v1/product-ideas/submit`,
+    ADMIN_LIST: `${BACKEND_URL}/api/v1/product-ideas/admin`,
+    ADMIN_UPDATE: (ideaId) => `${BACKEND_URL}/api/v1/product-ideas/admin/${ideaId}`,
+    ADMIN_DELETE: (ideaId) => `${BACKEND_URL}/api/v1/product-ideas/admin/${ideaId}`,
+    ADMIN_EXPORT_CSV: `${BACKEND_URL}/api/v1/product-ideas/admin/export/csv`,
+  },
   ADMIN: {
     OVERVIEW: `${BACKEND_URL}/api/v1/admin/analytics/overview`,
     FEATURE_USERS: (featureKey) => `${BACKEND_URL}/api/v1/admin/analytics/features/${featureKey}/users`,
