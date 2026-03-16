@@ -31,11 +31,6 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [isOptionalOpen, setIsOptionalOpen] = useState(false);
-  const [optionalHint, setOptionalHint] = useState('');
-
-  const hasRequiredTitle = formData.ideaTitle.trim().length >= 3;
-  const hasRequiredDescription = formData.ideaDescription.trim().length >= 10;
-  const canOpenOptional = hasRequiredTitle && hasRequiredDescription;
 
   const wrapperClass = useMemo(() => {
     if (variant === 'hero') {
@@ -68,16 +63,9 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
   const resetForm = () => {
     setFormData(initialForm);
     setIsOptionalOpen(false);
-    setOptionalHint('');
   };
 
   const handleOptionalToggle = () => {
-    if (!canOpenOptional) {
-      setOptionalHint('Fill title and description first.');
-      return;
-    }
-
-    setOptionalHint('');
     setIsOptionalOpen((prev) => !prev);
   };
 
@@ -96,6 +84,12 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
       return;
     }
 
+    if (!formData.contactEmail.trim()) {
+      setIsSuccess(false);
+      setMessage('Contact email is required.');
+      return;
+    }
+
     setIsSubmitting(true);
     setMessage('');
 
@@ -110,7 +104,7 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
           feature_categories: formData.featureCategories,
           usage_frequency: formData.usageFrequency || null,
           example_references: formData.exampleReferences.trim() || null,
-          contact_email: formData.contactEmail.trim() || null,
+          contact_email: formData.contactEmail.trim(),
           source,
           is_contact_allowed: formData.isContactAllowed,
         }),
@@ -139,7 +133,7 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
       <div className="mb-5">
         <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">🚀 Product Ideas</h3>
         <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-          Suggest a new tool or feature for FaltuAI.fun. Required fields are kept minimal.
+          Suggest a new tool or feature for FaltuAI.fun.
         </p>
       </div>
 
@@ -170,6 +164,18 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Contact Email *</label>
+          <input
+            type="email"
+            value={formData.contactEmail}
+            onChange={(event) => updateField('contactEmail', event.target.value)}
+            placeholder="your@email.com"
+            required
+            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          />
+        </div>
+
         <div className="flex items-center justify-end gap-2">
           <span className="text-xs text-gray-600 dark:text-gray-300">Optional details</span>
           <button
@@ -183,12 +189,13 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
           </button>
         </div>
 
-        {optionalHint && !isOptionalOpen && (
-          <p className="text-xs text-amber-700 dark:text-amber-300 text-right">{optionalHint}</p>
-        )}
-
-        {isOptionalOpen && canOpenOptional && (
-          <div className="space-y-4">
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isOptionalOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+          aria-hidden={!isOptionalOpen}
+        >
+          <div className="space-y-4 pt-1">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Target Users</label>
@@ -248,18 +255,7 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 items-end">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Contact Email</label>
-                <input
-                  type="email"
-                  value={formData.contactEmail}
-                  onChange={(event) => updateField('contactEmail', event.target.value)}
-                  placeholder="Optional"
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-
+            <div>
               <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
                 <input
                   type="checkbox"
@@ -270,7 +266,7 @@ const ProductIdeaForm = ({ source = 'landing_page', variant = 'default', classNa
               </label>
             </div>
           </div>
-        )}
+        </div>
 
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <span className="text-xs text-gray-500 dark:text-gray-400">Fields with * are required.</span>
