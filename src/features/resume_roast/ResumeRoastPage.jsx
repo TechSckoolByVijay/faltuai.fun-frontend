@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { authService } from '../../auth/authService.js';
 import { API_ENDPOINTS } from '../../config/backend.js';
+import {
+  trackFeatureOpened,
+  trackFeatureCompleted,
+  trackFeatureFailed,
+  trackAiOutputGenerated,
+  trackUserEngaged,
+} from '../../utils/analytics.js';
 
 /**
  * ResumeRoastPage - Protected feature for roasting resumes
@@ -30,6 +37,10 @@ const ResumeRoastPage = () => {
   // Load available roasting styles on component mount
   useEffect(() => {
     loadRoastingStyles();
+  }, []);
+
+  useEffect(() => {
+    trackFeatureOpened('resume_roast');
   }, []);
 
   const loadRoastingStyles = async () => {
@@ -67,6 +78,8 @@ const ResumeRoastPage = () => {
     setError('');
     setResult(null);
 
+    trackUserEngaged('resume_roast', { action: 'text_roast_start', style: selectedStyle });
+
     try {
       const token = authService.getToken();
       const response = await axios.post(
@@ -80,8 +93,12 @@ const ResumeRoastPage = () => {
         }
       );
       setResult(response.data);
+
+      trackAiOutputGenerated('resume_roast', { source: 'text', style: selectedStyle });
+      trackFeatureCompleted('resume_roast');
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to roast resume');
+      trackFeatureFailed('resume_roast', { error: err.response?.data?.detail || err.message });
     } finally {
       setLoading(false);
     }
@@ -96,6 +113,8 @@ const ResumeRoastPage = () => {
     setError('');
     setResult(null);
 
+    trackUserEngaged('resume_roast', { action: 'file_upload_start', style: selectedStyle });
+
     try {
       const token = authService.getToken();
       const response = await axios.post(
@@ -109,8 +128,12 @@ const ResumeRoastPage = () => {
         }
       );
       setResult(response.data);
+
+      trackAiOutputGenerated('resume_roast', { source: 'file', style: selectedStyle });
+      trackFeatureCompleted('resume_roast');
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to process file and roast resume');
+      trackFeatureFailed('resume_roast', { error: err.response?.data?.detail || err.message });
     } finally {
       setLoading(false);
     }
@@ -235,7 +258,7 @@ const ResumeRoastPage = () => {
             {/* Tab Navigation */}
             <div className="flex mb-4 border-b border-gray-200 dark:border-gray-700">
               <button
-                onClick={() => setActiveTab('text')}
+                onClick={() => { setActiveTab('text'); trackUserEngaged('resume_roast', { action: 'switch_tab', tab: 'text' }); }}
                 className={`px-4 py-2 font-medium ${
                   activeTab === 'text' 
                     ? 'text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-400' 
@@ -245,7 +268,7 @@ const ResumeRoastPage = () => {
                 📝 Paste Text
               </button>
               <button
-                onClick={() => setActiveTab('file')}
+                onClick={() => { setActiveTab('file'); trackUserEngaged('resume_roast', { action: 'switch_tab', tab: 'file' }); }}
                 className={`px-4 py-2 font-medium ${
                   activeTab === 'file' 
                     ? 'text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-400' 
@@ -326,11 +349,11 @@ const ResumeRoastPage = () => {
             {/* Demo Button */}
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
               <button
-                onClick={tryDemo}
-                className="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
-              >
-                🎭 Try Demo (Sample Resume)
-              </button>
+                  onClick={() => { trackUserEngaged('resume_roast', { action: 'try_demo' }); tryDemo(); }}
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200"
+                >
+                  🎭 Try Demo (Sample Resume)
+                </button>
             </div>
 
             {/* Error Display */}
@@ -417,6 +440,7 @@ const ResumeRoastPage = () => {
                 <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <button
                     onClick={() => {
+                      trackUserEngaged('resume_roast', { action: 'try_another' });
                       setResult(null);
                       setResumeText('');
                       setSelectedFile(null);
@@ -427,6 +451,7 @@ const ResumeRoastPage = () => {
                   </button>
                   <button
                     onClick={() => {
+                      trackUserEngaged('resume_roast', { action: 'copy_results' });
                       const text = `Resume Roast Results:\n\n${result.roast}\n\nSuggestions:\n${result.suggestions?.join('\n') || 'No suggestions'}`;
                       navigator.clipboard.writeText(text);
                     }}

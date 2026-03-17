@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authService } from '../../auth/authService.js';
 import { API_ENDPOINTS } from '../../config/backend.js';
+import {
+  trackFeatureOpened,
+  trackFeatureCompleted,
+  trackFeatureFailed,
+  trackAiOutputGenerated,
+  trackUserEngaged,
+} from '../../utils/analytics.js';
 
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
@@ -88,6 +95,9 @@ const CringeMeterPage = () => {
     setError('');
     setResult(null);
 
+    // user started analysis
+    trackUserEngaged('cringe_meter', { action: 'analyze_start' });
+
     try {
       const token = authService.getToken();
       const response = await fetch(API_ENDPOINTS.CRINGE_METER.ANALYZE, {
@@ -107,8 +117,17 @@ const CringeMeterPage = () => {
       }
 
       setResult(data);
+
+      // AI produced output
+      trackAiOutputGenerated('cringe_meter', { score: data.cringe_score, buzzwords_count: data.buzzwords_detected?.length || 0 });
+
+      // mark feature success
+      trackFeatureCompleted('cringe_meter');
     } catch (requestError) {
       setError(requestError.message || 'Failed to analyze post.');
+
+      // record failure
+      trackFeatureFailed('cringe_meter', { error: requestError.message });
     } finally {
       setLoading(false);
     }
@@ -120,7 +139,13 @@ const CringeMeterPage = () => {
     );
     setError('');
     setResult(null);
+
+    trackUserEngaged('cringe_meter', { action: 'load_sample' });
   };
+
+  useEffect(() => {
+    trackFeatureOpened('cringe_meter');
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900">

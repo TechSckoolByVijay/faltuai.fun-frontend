@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { authService } from '../../auth/authService.js';
 import { API_ENDPOINTS } from '../../config/backend.js';
+import {
+  trackFeatureOpened,
+  trackFeatureCompleted,
+  trackFeatureFailed,
+  trackAiOutputGenerated,
+  trackUserEngaged,
+} from '../../utils/analytics.js';
 
 const detectMood = (text = '') => {
   const content = text.toLowerCase();
@@ -112,6 +119,8 @@ const EmailSmoothenerPage = () => {
     setError('');
     setResult(null);
 
+    trackUserEngaged('email_smoothener', { action: 'smoothen_start' });
+
     try {
       const token = authService.getToken();
       const response = await fetch(API_ENDPOINTS.EMAIL_SMOOTHENER.SMOOTHEN, {
@@ -130,8 +139,13 @@ const EmailSmoothenerPage = () => {
       }
 
       setResult(data);
+
+      trackAiOutputGenerated('email_smoothener', { variants: data.variants?.length || 0 });
+      trackFeatureCompleted('email_smoothener');
     } catch (requestError) {
       setError(requestError.message || 'Failed to smoothen draft');
+
+      trackFeatureFailed('email_smoothener', { error: requestError.message });
     } finally {
       setLoading(false);
     }
@@ -143,7 +157,13 @@ const EmailSmoothenerPage = () => {
     );
     setError('');
     setResult(null);
+
+    trackUserEngaged('email_smoothener', { action: 'load_sample' });
   };
+
+  useEffect(() => {
+    trackFeatureOpened('email_smoothener');
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-950 dark:via-slate-900 dark:to-black">
