@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="FastAPI Production Tips cover">
+  <defs>
+    <linearGradient id="g6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g6)"/>
+  <circle cx="1080" cy="120" r="220" fill="#ffffff08"/>
+  <text x="80" y="270" fill="#f0fdf4" font-family="Segoe UI, Arial" font-size="62" font-weight="700">Python FastAPI</text>
+  <text x="80" y="348" fill="#f0fdf4" font-family="Segoe UI, Arial" font-size="62" font-weight="700">Production Tips</text>
+  <text x="80" y="418" fill="#6ee7b7" font-family="Segoe UI, Arial" font-size="32">Async · Security · Observability</text>
+</svg>

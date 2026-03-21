@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth.js';
 import { CONFIG } from '../config/backend.js';
 import { SIDEBAR_NAV_SECTIONS } from '../config/features.js';
 import NewsletterSubscription from '../components/NewsletterSubscription.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+
+const BLOG_CONFIG_URL = '/blog/blogs/master_blog_config.json';
 
 const TOOL_ACCENTS = {
   'skill-assessment': {
@@ -48,12 +50,27 @@ const LANDING_TOOL_KEYS = new Set([
   'name-craft',
 ]);
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    return dateString || '';
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  }).format(date);
+};
+
 /**
  * Landing Page - FaltooAI Brand Experience
  */
 const LandingPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, login, user } = useAuth();
+  const [blogs, setBlogs] = useState([]);
+
   const tools = SIDEBAR_NAV_SECTIONS
     .flatMap((section) => section.items)
     .filter((item) => item.path && LANDING_TOOL_KEYS.has(item.key))
@@ -61,6 +78,39 @@ const LandingPage = () => {
       ...item,
       ...(TOOL_ACCENTS[item.key] || {}),
     }));
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadBlogs = async () => {
+      try {
+        const response = await fetch(BLOG_CONFIG_URL, { cache: 'no-cache' });
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = await response.json();
+        if (!ignore && Array.isArray(payload)) {
+          const sortedBlogs = [...payload].sort(
+            (a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
+          );
+          setBlogs(sortedBlogs);
+        }
+      } catch {
+        if (!ignore) {
+          setBlogs([]);
+        }
+      }
+    };
+
+    loadBlogs();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const previewBlogs = useMemo(() => blogs.slice(0, 5), [blogs]);
 
   const handleToolAccess = (path) => {
     if (isAuthenticated) {
@@ -227,6 +277,73 @@ const LandingPage = () => {
               </button>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Blogs Section */}
+      <section id="blogs" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            Latest Blogs
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Scroll-worthy reads on AI, DevOps, and practical engineering.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {previewBlogs.map((blog) => (
+            <a
+              key={blog.slug}
+              href={`/blog/blog.html?slug=${encodeURIComponent(blog.slug)}`}
+              className="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-1 overflow-hidden"
+            >
+              <div className="h-40 w-full flex-shrink-0 bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                {blog.cover && (
+                  <img
+                    src={blog.cover}
+                    alt={`${blog.title} cover`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              <div className="flex flex-col flex-1 p-4 gap-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(blog.date)}</p>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-snug">
+                  {blog.title}
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed mt-1">
+                  {blog.description || 'Read this engineering article.'}
+                </p>
+                {Array.isArray(blog.tags) && blog.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {blog.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full border border-gray-200 dark:border-gray-700"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+
+          <Link
+            to="/blogs"
+            className="flex flex-col items-center justify-center text-center rounded-xl border-2 border-dashed border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-950/20 p-6 min-h-[260px] hover:bg-primary-100 dark:hover:bg-primary-900/20 transition duration-200 hover:-translate-y-1"
+          >
+            <span className="text-4xl mb-4">📚</span>
+            <h3 className="text-base font-semibold text-primary-700 dark:text-primary-300 mb-2">
+              View All Blogs
+            </h3>
+            <p className="text-sm text-primary-700/70 dark:text-primary-300/70 max-w-[160px]">
+              Browse every published article
+            </p>
+          </Link>
         </div>
       </section>
 

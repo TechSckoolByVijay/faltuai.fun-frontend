@@ -1,0 +1,56 @@
+[
+  {
+    "title": "AI Agents for DevOps",
+    "slug": "ai-agents-devops",
+    "file": "ai-agents-devops.md",
+    "date": "2026-03-21",
+    "tags": ["AI", "DevOps"],
+    "cover": "/blog/blogs/images/ai-agents-devops_01.svg",
+    "description": "How AI agents are transforming DevOps workflows"
+  },
+  {
+    "title": "Terraform Best Practices",
+    "slug": "terraform-best-practices",
+    "file": "terraform-best-practices.md",
+    "date": "2026-03-20",
+    "tags": ["Terraform"],
+    "cover": "/blog/blogs/images/terraform-best-practices_01.svg",
+    "description": "Battle-tested Terraform patterns for safe cloud delivery"
+  },
+  {
+    "title": "Kubernetes Scaling Patterns",
+    "slug": "kubernetes-scaling-patterns",
+    "file": "kubernetes-scaling-patterns.md",
+    "date": "2026-03-19",
+    "tags": ["Kubernetes", "DevOps"],
+    "cover": "/blog/blogs/images/kubernetes-scaling-patterns_01.svg",
+    "description": "Practical scaling patterns for resilient Kubernetes workloads"
+  },
+  {
+    "title": "System Design Interview Prep",
+    "slug": "system-design-interviews",
+    "file": "system-design-interviews.md",
+    "date": "2026-03-18",
+    "tags": ["System Design", "Interviews"],
+    "cover": "/blog/blogs/images/system-design-interviews_01.svg",
+    "description": "A clear approach to architecture interviews with strong trade-off reasoning"
+  },
+  {
+    "title": "GitHub Actions Best Practices",
+    "slug": "github-actions-best-practices",
+    "file": "github-actions-best-practices.md",
+    "date": "2026-03-17",
+    "tags": ["CI/CD", "GitHub"],
+    "cover": "/blog/blogs/images/github-actions-best-practices_01.svg",
+    "description": "Write faster, safer workflows with caching, minimal permissions, and smart path filters"
+  },
+  {
+    "title": "Python FastAPI Production Tips",
+    "slug": "fastapi-production-tips",
+    "file": "fastapi-production-tips.md",
+    "date": "2026-03-16",
+    "tags": ["Python", "FastAPI"],
+    "cover": "/blog/blogs/images/fastapi-production-tips_01.svg",
+    "description": "Practical patterns for deploying FastAPI apps that are observable, secure, and performant"
+  }
+]

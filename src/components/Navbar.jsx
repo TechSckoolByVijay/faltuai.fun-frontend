@@ -45,7 +45,7 @@ const Navbar = () => {
           {/* Logo and main nav */}
           <div className="flex items-center">
             <Link 
-              to="/" 
+              to={isAuthenticated ? '/dashboard' : '/'} 
               className="text-xl font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
               {CONFIG.APP_NAME}
@@ -54,14 +54,25 @@ const Navbar = () => {
             {/* Main navigation links */}
             <div className="ml-10 hidden md:flex items-baseline space-x-2">
               <Link
-                to="/"
+                to={isAuthenticated ? '/dashboard' : '/'}
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  isExactActive('/') 
+                  isExactActive('/') || isExactActive('/dashboard')
                     ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' 
                     : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
                 }`}
               >
                 Home
+              </Link>
+
+              <Link
+                to="/blogs"
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  isExactActive('/blogs')
+                    ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
+                }`}
+              >
+                📝 Blog
               </Link>
               
               {isAuthenticated && (
@@ -159,14 +170,25 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden py-3 border-t border-gray-200 dark:border-gray-700 space-y-2">
             <Link
-              to="/"
+              to={isAuthenticated ? '/dashboard' : '/'}
               className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                isExactActive('/')
+                isExactActive('/') || isExactActive('/dashboard')
                   ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
                   : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               Home
+            </Link>
+
+            <Link
+              to="/blogs"
+              className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                isExactActive('/blogs')
+                  ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              }`}
+            >
+              📝 Blog
             </Link>
 
             {isAuthenticated && (

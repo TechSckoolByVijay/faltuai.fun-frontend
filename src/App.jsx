@@ -14,6 +14,7 @@ import LandingPage from './pages/LandingPage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import LoginCallback from './pages/LoginCallback.jsx';
 import ProductIdeasPage from './pages/ProductIdeasPage.jsx';
+import BlogsPage from './pages/BlogsPage.jsx';
 
 // Features
 import ResumeRoastPage from './features/resume_roast/ResumeRoastPage.jsx';
@@ -61,6 +62,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/product-ideas" element={<ProductIdeasPage />} />
             <Route path="/auth/callback" element={<LoginCallback />} />
             <Route path="/debug" element={<DebugInfo />} />
