@@ -16,8 +16,10 @@
     body { background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 32%), linear-gradient(180deg, #020617 0%, #080a12 100%); }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
-    .page { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 1rem; width: 100vw; height: 100vh; max-height: 100vh; overflow: hidden; padding: 1rem; }
-    .panel { display: flex; flex-direction: column; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); overflow: hidden; min-height: 0; }
+    .page { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: 1rem; width: 100vw; height: 100vh; padding: 1rem; overflow: hidden; transition: all .3s ease; }
+    .page.fullscreen { grid-template-columns: 1fr; }
+    .panel { display: flex; flex-direction: column; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); overflow: auto; min-height: 0; transition: opacity .3s ease, visibility .3s ease; }
+    .page.fullscreen .panel { opacity: 0; visibility: hidden; pointer-events: none; width: 0; padding: 0; }
     .panel h1 { margin: 0 0 .75rem; font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1.05; }
     .panel p { margin: .9rem 0; color: #cbd5e1; line-height: 1.75; }
     .field { display: grid; gap: .65rem; margin-top: 1.15rem; }
@@ -31,7 +33,9 @@
     .stat span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8; }
     .stat strong { font-size: 1.8rem; color: #f8fafc; }
     .game-board { position: relative; display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; border-radius: 32px; border: 1px solid rgba(148,163,184,.12); background: radial-gradient(circle at 20% 20%, rgba(59,130,246,.22), transparent 20%), radial-gradient(circle at 80% 15%, rgba(16,185,129,.16), transparent 18%), linear-gradient(180deg, #0f172a 0%, #020617 100%); }
+    .page.fullscreen .game-board { border-radius: 0; border: none; }
     .game-header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding: 1.15rem 1.35rem; background: rgba(15,23,42,.9); border-bottom: 1px solid rgba(148,163,184,.12); }
+    .page.fullscreen .game-header { display: none; }
     .game-header .label { color: #94a3b8; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
     .game-score { display: grid; gap: .2rem; }
     .game-score strong { font-size: 2rem; color: #38bdf8; }
@@ -59,7 +63,7 @@
     .share-actions a { background: #0ea5e9; color: #f8fafc; }
     .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); padding: .9rem 1.2rem; border-radius: 999px; background: rgba(15,23,42,.96); color: #f8fafc; font-size: .95rem; box-shadow: 0 20px 60px rgba(0,0,0,.4); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
     .toast.visible { opacity: 1; }
-    @media (max-width: 1024px) { .page { grid-template-columns: 1fr; min-height: auto; } .game-board { min-height: 72vh; } }
+    @media (max-width: 1024px) { .page { grid-template-columns: 1fr; min-height: auto; } .panel { max-height: none; } .game-board { min-height: 72vh; } }
     @media (max-width: 640px) { .page { padding: 1rem; gap: 1rem; } .overlay-card { padding: 1.5rem; } }
   </style>
 </head>
@@ -100,6 +104,7 @@
         <div class="game-score"><span class="label">Title on success</span><strong id="titleBadge">Stressed Intern</strong></div>
       </div>
       <div class="play-area" id="playArea">
+        <div class="game-area"></div>
         <div class="info">
           <p id="instructions">Click the labeled cockroaches before they scuttle away. Each hit saves the environment from another corporate nuisance.</p>
           <div class="theme-marker"><span id="themeTag">#Production</span></div>
@@ -125,6 +130,7 @@
 
   <script>
     const playArea = document.getElementById('playArea');
+    const gameArea = playArea.querySelector('.game-area');
     const playerNameInput = document.getElementById('playerName');
     const themeSelect = document.getElementById('themeSelect');
     const startButton = document.getElementById('startButton');
@@ -215,8 +221,8 @@
       roach.type = 'button';
       roach.innerHTML = `<span class='emoji'>🪳</span>${label}`;
       const size = 16 + Math.random() * 24;
-      const x = Math.random() * (playArea.offsetWidth - 120);
-      const y = Math.random() * (playArea.offsetHeight - 80);
+      const x = Math.random() * (gameArea.offsetWidth - 120);
+      const y = Math.random() * (gameArea.offsetHeight - 80);
       roach.style.left = `${Math.max(x, 12)}px`;
       roach.style.top = `${Math.max(y, 12)}px`;
       roach.style.opacity = '0';
@@ -252,7 +258,7 @@
       });
 
       activeRoaches.add(roach.dataset.id);
-      playArea.appendChild(roach);
+      gameArea.appendChild(roach);
       requestAnimationFrame(() => {
         roach.style.opacity = '1';
         roach.style.transform = 'scale(1)';
@@ -265,6 +271,7 @@
       clearInterval(spawnId);
       activeRoaches.clear();
       document.querySelectorAll('.roach').forEach((node) => node.remove());
+      document.querySelector('.page').classList.remove('fullscreen');
 
       const title = getDesignation(score);
       const message = `You scored ${score} roach kills and earned the title ${title.title}!`;
@@ -320,6 +327,7 @@
       titleBadge.textContent = 'Stressed Intern';
       gameOverlay.classList.remove('active');
       gameActive = true;
+      document.querySelector('.page').classList.add('fullscreen');
 
       clearInterval(intervalId);
       clearInterval(spawnId);
