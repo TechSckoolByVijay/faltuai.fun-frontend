@@ -11,6 +11,47 @@ export const SIDEBAR_NAV_SECTIONS = [
         description: 'Brutally honest resume feedback',
       },
       {
+        key: 'email-smoothener',
+        label: 'Email Smoothener',
+        icon: '📨',
+        path: '/email-smoothener',
+        description: 'Vibe-check your draft with three sendable versions',
+      },
+      {
+        key: 'idea-spark',
+        label: 'Idea Spark',
+        icon: '💡',
+        path: '/idea-spark',
+        description: 'Turn one phrase into 10 practical micro-ideas',
+      },
+      {
+        key: 'name-craft',
+        label: 'NameCraft',
+        icon: '🧭',
+        path: '/name-craft',
+        description: 'Generate consistent naming conventions fast',
+      },
+      {
+        key: 'cockroach-killer',
+        label: 'Cockroach Killer',
+        icon: '🪳',
+        path: '/cockroach-killer',
+        description: 'Smash corporate nuisances in a 60-second desktop game',
+      },
+      {
+        key: 'skill-assessment',
+        label: 'Skill Assessment',
+        icon: '🎯',
+        path: '/skill-assessment',
+        description: 'AI skill evaluation and learning roadmap',
+      },
+    ],
+  },
+  {
+    key: 'career-tools',
+    title: 'Career Tools',
+    items: [
+      {
         key: 'career-roadmap',
         label: 'Career Roadmap',
         icon: '🧭',

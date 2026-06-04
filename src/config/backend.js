@@ -40,6 +40,11 @@ export const API_ENDPOINTS = {
   NAME_CRAFT: {
     GENERATE: `${BACKEND_URL}/api/v1/name-craft/generate`,
   },
+  COCKROACH_KILLER: {
+    SUBMIT_SCORE: `${BACKEND_URL}/api/v1/cockroach-killer/score`,
+    LEADERBOARD: `${BACKEND_URL}/api/v1/cockroach-killer/leaderboard`,
+    STATS: `${BACKEND_URL}/api/v1/cockroach-killer/me`,
+  },
   PRODUCT_IDEAS: {
     SUBMIT: `${BACKEND_URL}/api/v1/product-ideas/submit`,
     ADMIN_LIST: `${BACKEND_URL}/api/v1/product-ideas/admin`,
