@@ -40,8 +40,8 @@ const CockroachKillerPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="h-screen overflow-hidden bg-slate-950 text-slate-100">
+      <div className="mx-auto flex h-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -93,11 +93,11 @@ const CockroachKillerPage = () => {
             </div>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
+          <div className="mt-8 flex-1 overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 min-h-0">
             <iframe
               src="/cockroach-killer.html"
               title="Cockroach Killer game"
-              className="h-[calc(100vh-220px)] w-full min-h-[640px] border-none"
+              className="h-full w-full min-h-0 border-none"
             />
           </div>
 

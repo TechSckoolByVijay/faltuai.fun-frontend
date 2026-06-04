@@ -12,12 +12,12 @@
       color: #e5e7eb;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
     body { background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 32%), linear-gradient(180deg, #020617 0%, #080a12 100%); }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
-    .page { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 1.5rem; min-height: 100vh; padding: 1.5rem; }
-    .panel { border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1.5rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); }
+    .page { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 1rem; width: 100vw; height: 100vh; max-height: 100vh; overflow: hidden; padding: 1rem; }
+    .panel { display: flex; flex-direction: column; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); overflow: hidden; min-height: 0; }
     .panel h1 { margin: 0 0 .75rem; font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1.05; }
     .panel p { margin: .9rem 0; color: #cbd5e1; line-height: 1.75; }
     .field { display: grid; gap: .65rem; margin-top: 1.15rem; }
@@ -30,13 +30,13 @@
     .stat { display: grid; gap: .35rem; padding: 1rem 1.1rem; border-radius: 20px; background: rgba(30,41,59,.9); border: 1px solid rgba(148,163,184,.12); }
     .stat span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8; }
     .stat strong { font-size: 1.8rem; color: #f8fafc; }
-    .game-board { position: relative; min-height: calc(100vh - 3rem); overflow: hidden; border-radius: 32px; border: 1px solid rgba(148,163,184,.12); background: radial-gradient(circle at 20% 20%, rgba(59,130,246,.22), transparent 20%), radial-gradient(circle at 80% 15%, rgba(16,185,129,.16), transparent 18%), linear-gradient(180deg, #0f172a 0%, #020617 100%); }
+    .game-board { position: relative; display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; border-radius: 32px; border: 1px solid rgba(148,163,184,.12); background: radial-gradient(circle at 20% 20%, rgba(59,130,246,.22), transparent 20%), radial-gradient(circle at 80% 15%, rgba(16,185,129,.16), transparent 18%), linear-gradient(180deg, #0f172a 0%, #020617 100%); }
     .game-header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding: 1.15rem 1.35rem; background: rgba(15,23,42,.9); border-bottom: 1px solid rgba(148,163,184,.12); }
     .game-header .label { color: #94a3b8; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
     .game-score { display: grid; gap: .2rem; }
     .game-score strong { font-size: 2rem; color: #38bdf8; }
     .game-score small { color: #94a3b8; }
-    .play-area { position: relative; height: calc(100% - 92px); overflow: hidden; }
+    .play-area { position: relative; flex: 1; min-height: 0; overflow: hidden; }
     .play-area::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 35% 30%, rgba(255,255,255,.08), transparent 12%), radial-gradient(circle at 75% 60%, rgba(14,165,233,.08), transparent 11%); pointer-events: none; }
     .play-area .info { position: absolute; left: 1.5rem; bottom: 1.5rem; color: #e2e8f0; z-index: 10; line-height: 1.5; max-width: 15rem; }
     .play-area .theme-marker { display: inline-flex; gap: .5rem; align-items: center; margin-top: .75rem; padding: .65rem .9rem; border-radius: 999px; background: rgba(15,23,42,.75); border: 1px solid rgba(148,163,184,.12); }
@@ -273,9 +273,11 @@
       overlayMessage.textContent = title.description;
 
       const userName = playerNameInput.value.trim() || 'Anonymous Techie';
-      const shareCopy = `Just exterminated ${score} corporate cockroaches and earned the title '${title.title}' on faltooai.fun! Kept the production environment safe from Scope Creep and Production Bugs. 🚀 Can you beat my score, fellow Tech Leads? #FaltooAI #TechHumor #CorporateLife #Coding`;
+      const shareCopy = `Just exterminated ${score} corporate cockroaches and earned the title '${title.title}' on faltooai.fun! Kept the production environment safe from Scope Creep and Production Bugs. Play here: https://faltooai.fun/#/cockroach-killer 🚀 Can you beat my score, fellow Tech Leads? #FaltooAI #TechHumor #CorporateLife #Coding`;
       shareText.value = shareCopy;
-      linkedinShare.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://faltooai.fun/cockroach-killer')}`;
+      const linkedinComposerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(shareCopy)}`;
+      linkedinShare.href = linkedinComposerUrl;
+      linkedinShare.textContent = 'Copy text';
       gameOverlay.classList.add('active');
 
       const storedStats = loadStats();
@@ -333,10 +335,18 @@
     startButton.addEventListener('click', () => startGame());
     themeSelect.addEventListener('change', updateHeader);
 
-    copyShare.addEventListener('click', async () => {
+    copyShare.textContent = 'Share on LinkedIn';
+    copyShare.addEventListener('click', () => {
+      const linkedinComposerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(shareText.value)}`;
+      window.open(linkedinComposerUrl, '_blank', 'noopener,noreferrer');
+      showToast('Opening LinkedIn composer…');
+    });
+
+    linkedinShare.addEventListener('click', async (event) => {
+      event.preventDefault();
       try {
         await navigator.clipboard.writeText(shareText.value);
-        showToast('Copied share text to clipboard');
+        showToast('Share text copied to clipboard');
       } catch (err) {
         showToast('Unable to copy. Select text manually.');
       }
