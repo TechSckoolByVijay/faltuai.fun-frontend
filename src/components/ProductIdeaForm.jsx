@@ -3,13 +3,10 @@ import React, { useMemo, useState } from 'react';
 import { API_ENDPOINTS } from '../config/backend.js';
 
 const CATEGORY_OPTIONS = [
-  'AI Tools',
-  'Career',
-  'Content',
-  'Productivity',
-  'Education',
-  'Developer Tools',
-  'Fun/Experiments',
+  'Faltu Growth',
+  'Faltu Content',
+  'Faltu Lifestyle',
+  'Faltu Utilities',
 ];
 
 const USAGE_FREQUENCY_OPTIONS = ['Daily', 'Weekly', 'Monthly', 'Occasionally'];

@@ -1,15 +1,8 @@
 export const SIDEBAR_NAV_SECTIONS = [
   {
-    key: 'ai-tools',
-    title: 'AI Tools',
+    key: 'faltu-growth',
+    title: 'Faltu Growth',
     items: [
-      {
-        key: 'cringe-meter',
-        label: 'LinkedIn Cringe-o-Meter',
-        icon: '🤏',
-        path: '/cringe-meter',
-        description: 'LinkedIn buzzword and cringe analysis',
-      },
       {
         key: 'resume-roast',
         label: 'Resume Roast',
@@ -72,17 +65,31 @@ export const SIDEBAR_NAV_SECTIONS = [
         description: 'Mock interview prep and feedback',
         disabled: true,
       },
+      {
+        key: 'skill-assessment',
+        label: 'Skill Assessment',
+        icon: '🎯',
+        path: '/skill-assessment',
+        description: 'AI skill evaluation and learning roadmap',
+      },
     ],
   },
   {
-    key: 'content-tools',
-    title: 'Content Tools',
+    key: 'faltu-content',
+    title: 'Faltu Content',
     items: [
+      {
+        key: 'cringe-meter',
+        label: 'LinkedIn Cringe-o-Meter',
+        icon: '🤏',
+        path: '/cringe-meter',
+        description: 'Buzzword and cringe analysis',
+      },
       {
         key: 'post-rewriter',
         label: 'Post Rewriter',
         icon: '✍️',
-        description: 'Rewrite content for clarity and tone',
+        description: 'Rewrite for clarity and tone',
         disabled: true,
       },
       {
@@ -92,11 +99,58 @@ export const SIDEBAR_NAV_SECTIONS = [
         description: 'Generate social copy quickly',
         disabled: true,
       },
+      {
+        key: 'email-smoothener',
+        label: 'Email Smoothener',
+        icon: '📨',
+        path: '/email-smoothener',
+        description: 'Vibe-check your drafts',
+      },
     ],
   },
   {
-    key: 'utilities',
-    title: 'Utilities',
+    key: 'faltu-lifestyle',
+    title: 'Faltu Lifestyle',
+    items: [
+      {
+        key: 'ai-news-podcast',
+        label: 'AI News Podcast',
+        icon: '🎧',
+        description: 'Personalized daily audio briefing for students',
+        disabled: true,
+      },
+      {
+        key: 'ai-newsletter',
+        label: 'AI Newsletter',
+        icon: '📰',
+        description: 'Smart curation of news you actually need',
+        disabled: true,
+      },
+      {
+        key: 'idea-spark',
+        label: 'Idea Spark',
+        icon: '💡',
+        path: '/idea-spark',
+        description: 'Turn one phrase into 10 practical micro-ideas',
+      },
+    ],
+  },
+  {
+    key: 'faltu-utilities',
+    title: 'Faltu Utilities',
+    items: [
+      {
+        key: 'name-craft',
+        label: 'NameCraft',
+        icon: '🧭',
+        path: '/name-craft',
+        description: 'Generate consistent naming conventions fast',
+      },
+    ],
+  },
+  {
+    key: 'admin',
+    title: 'Admin',
     items: [
       {
         key: 'admin-analytics',
@@ -105,20 +159,6 @@ export const SIDEBAR_NAV_SECTIONS = [
         path: '/admin/analytics',
         description: 'Feature usage, top users, and common queries',
         requiresSuperUser: true,
-      },
-      {
-        key: 'dashboard',
-        label: 'Dashboard',
-        icon: '🏠',
-        path: '/dashboard',
-        description: 'Overview and quick actions',
-      },
-      {
-        key: 'settings',
-        label: 'Settings',
-        icon: '⚙️',
-        description: 'Personalization and preferences',
-        disabled: true,
       },
     ],
   },
