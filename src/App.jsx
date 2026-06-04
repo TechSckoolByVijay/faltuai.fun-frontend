@@ -26,6 +26,7 @@ import NameCraftPage from './features/name_craft/NameCraftPage.jsx';
 import SkillAssessmentStart from './features/skill_assessment/SkillAssessmentStart.jsx';
 import SkillAssessmentQuiz from './features/skill_assessment/SkillAssessmentQuiz.jsx';
 import SkillAssessmentResults from './features/skill_assessment/SkillAssessmentResults.jsx';
+import CockroachKillerPage from './pages/CockroachKillerPage.jsx';
 
 // Debug
 import DebugInfo from './debug.jsx';
@@ -117,6 +118,8 @@ function App() {
               path="/skill-assessment/results/:assessmentId" 
               element={withShell(<SkillAssessmentResults />)}
             />
+
+            <Route path="/cockroach-killer" element={<CockroachKillerPage />} />
             
             {/* TODO: Add more feature routes here */}
             {/* 

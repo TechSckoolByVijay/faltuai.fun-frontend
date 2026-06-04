@@ -39,6 +39,11 @@ const TOOL_ACCENTS = {
     button: 'bg-primary-500 hover:bg-primary-600',
     cta: 'Craft Names',
   },
+  'cockroach-killer': {
+    iconBg: 'from-amber-500 to-orange-500',
+    button: 'bg-amber-600 hover:bg-amber-700',
+    cta: 'Exterminate Now',
+  },
 };
 
 const LANDING_TOOL_KEYS = new Set([
@@ -48,6 +53,7 @@ const LANDING_TOOL_KEYS = new Set([
   'cringe-meter',
   'idea-spark',
   'name-craft',
+  'cockroach-killer',
 ]);
 
 const formatDate = (dateString) => {
@@ -113,6 +119,10 @@ const LandingPage = () => {
   const previewBlogs = useMemo(() => blogs.slice(0, 5), [blogs]);
 
   const handleToolAccess = (path) => {
+    if (path === '/cockroach-killer') {
+      navigate(path);
+      return;
+    }
     if (isAuthenticated) {
       navigate(path);
       return;

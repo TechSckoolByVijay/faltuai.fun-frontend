@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cockroach Killer: Corporate Edition</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body { background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 32%), linear-gradient(180deg, #020617 0%, #080a12 100%); }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .page { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 1.5rem; min-height: 100vh; padding: 1.5rem; }
+    .panel { border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1.5rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); }
+    .panel h1 { margin: 0 0 .75rem; font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1.05; }
+    .panel p { margin: .9rem 0; color: #cbd5e1; line-height: 1.75; }
+    .field { display: grid; gap: .65rem; margin-top: 1.15rem; }
+    .field label { color: #94a3b8; font-size: .88rem; letter-spacing: .04em; text-transform: uppercase; }
+    .field input, .field select { width: 100%; border-radius: 18px; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.96); color: #e2e8f0; padding: .95rem 1rem; outline: none; }
+    .field input:focus, .field select:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.12); }
+    .button { width: 100%; margin-top: 1.5rem; border: none; border-radius: 18px; padding: 1rem 1.1rem; font-size: 1rem; font-weight: 700; color: #0f172a; background: linear-gradient(135deg, #38bdf8, #818cf8); transition: transform .2s ease, box-shadow .2s ease; }
+    .button:hover { transform: translateY(-1px); box-shadow: 0 18px 32px rgba(56,189,248,.2); }
+    .stats { display: grid; gap: 1rem; margin-top: 1.5rem; }
+    .stat { display: grid; gap: .35rem; padding: 1rem 1.1rem; border-radius: 20px; background: rgba(30,41,59,.9); border: 1px solid rgba(148,163,184,.12); }
+    .stat span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8; }
+    .stat strong { font-size: 1.8rem; color: #f8fafc; }
+    .game-board { position: relative; min-height: calc(100vh - 3rem); overflow: hidden; border-radius: 32px; border: 1px solid rgba(148,163,184,.12); background: radial-gradient(circle at 20% 20%, rgba(59,130,246,.22), transparent 20%), radial-gradient(circle at 80% 15%, rgba(16,185,129,.16), transparent 18%), linear-gradient(180deg, #0f172a 0%, #020617 100%); }
+    .game-header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding: 1.15rem 1.35rem; background: rgba(15,23,42,.9); border-bottom: 1px solid rgba(148,163,184,.12); }
+    .game-header .label { color: #94a3b8; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
+    .game-score { display: grid; gap: .2rem; }
+    .game-score strong { font-size: 2rem; color: #38bdf8; }
+    .game-score small { color: #94a3b8; }
+    .play-area { position: relative; height: calc(100% - 92px); overflow: hidden; }
+    .play-area::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 35% 30%, rgba(255,255,255,.08), transparent 12%), radial-gradient(circle at 75% 60%, rgba(14,165,233,.08), transparent 11%); pointer-events: none; }
+    .play-area .info { position: absolute; left: 1.5rem; bottom: 1.5rem; color: #e2e8f0; z-index: 10; line-height: 1.5; max-width: 15rem; }
+    .play-area .theme-marker { display: inline-flex; gap: .5rem; align-items: center; margin-top: .75rem; padding: .65rem .9rem; border-radius: 999px; background: rgba(15,23,42,.75); border: 1px solid rgba(148,163,184,.12); }
+    .play-area .theme-marker span { font-size: .95rem; color: #cbd5e1; }
+    .game-area { position: relative; width: 100%; height: 100%; cursor: crosshair; }
+    .roach { position: absolute; display: inline-flex; align-items: center; gap: .55rem; padding: .65rem .85rem; border-radius: 999px; background: rgba(15,23,42,.95); border: 1px solid rgba(148,163,184,.2); color: #f8fafc; font-size: .97rem; font-weight: 600; user-select: none; transition: transform .2s ease, opacity .2s ease; }
+    .roach:hover { transform: scale(1.05); }
+    .roach .emoji { font-size: 1.2rem; }
+    .overlay { position: absolute; inset: 0; display: none; place-items: center; background: rgba(15,23,42,.92); color: #e2e8f0; padding: 2rem; z-index: 20; }
+    .overlay.active { display: grid; }
+    .overlay-card { max-width: 34rem; width: 100%; border-radius: 28px; background: rgba(15,23,42,.96); border: 1px solid rgba(148,163,184,.18); padding: 2rem; box-shadow: 0 28px 80px rgba(0,0,0,.45); }
+    .overlay-card h2 { margin: 0 0 1rem; font-size: clamp(2rem, 2.4vw, 2.5rem); }
+    .overlay-card p { margin: .85rem 0; line-height: 1.8; }
+    .overlay-card .title-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1rem; border-radius: 999px; background: linear-gradient(to right, #38bdf8, #818cf8); color: #070b16; font-weight: 700; }
+    .share-box { margin-top: 1.4rem; padding: 1.2rem 1.3rem; border-radius: 22px; background: rgba(15,23,42,.85); border: 1px solid rgba(148,163,184,.14); }
+    .share-box textarea { width: 100%; min-height: 124px; resize: vertical; border: 1px solid rgba(148,163,184,.2); border-radius: 18px; background: rgba(15,23,42,.92); color: #e2e8f0; padding: 1rem; line-height: 1.6; font-size: .95rem; outline: none; }
+    .share-actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1rem; }
+    .share-actions button, .share-actions a { border: none; border-radius: 18px; padding: .95rem 1.1rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; text-decoration: none; }
+    .share-actions button { background: #38bdf8; color: #0f172a; }
+    .share-actions a { background: #0ea5e9; color: #f8fafc; }
+    .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); padding: .9rem 1.2rem; border-radius: 999px; background: rgba(15,23,42,.96); color: #f8fafc; font-size: .95rem; box-shadow: 0 20px 60px rgba(0,0,0,.4); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
+    .toast.visible { opacity: 1; }
+    @media (max-width: 1024px) { .page { grid-template-columns: 1fr; min-height: auto; } .game-board { min-height: 72vh; } }
+    @media (max-width: 640px) { .page { padding: 1rem; gap: 1rem; } .overlay-card { padding: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="panel">
+      <p style="font-size:.95rem; color:#38bdf8; letter-spacing:.14em; text-transform:uppercase;">Public Play</p>
+      <h1>Cockroach Killer</h1>
+      <p>Type your player name, pick a corporate theme, and click all the bugs before time runs out. Use the result text to share on LinkedIn with a tech humor twist.</p>
+
+      <div class="field">
+        <label for="playerName">Player Name</label>
+        <input id="playerName" type="text" value="Anonymous Techie" maxlength="30" />
+      </div>
+
+      <div class="field">
+        <label for="themeSelect">Theme</label>
+        <select id="themeSelect" aria-label="Select theme">
+          <option value="production">Production Server Crashing</option>
+          <option value="cubicle">Cubicle Hell at 7 PM</option>
+          <option value="exit">The 90-Day Notice Period</option>
+        </select>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span>Score</span><strong id="scoreValue">0</strong></div>
+        <div class="stat"><span>Timer</span><strong id="timerValue">60</strong></div>
+        <div class="stat"><span>Hits</span><strong id="killsValue">0</strong></div>
+      </div>
+
+      <button id="startButton" class="button">Start Extermination</button>
+      <p style="font-size:.95rem; color:#94a3b8; margin-top:1rem;">Signed-in users can have their score submitted to the leaderboard automatically. Guest play remains instant and free.</p>
+    </section>
+
+    <section class="game-board">
+      <div class="game-header">
+        <div class="game-score"><span class="label">Active theme</span><strong id="themeLabel">Production Server Crashing</strong></div>
+        <div class="game-score"><span class="label">Title on success</span><strong id="titleBadge">Stressed Intern</strong></div>
+      </div>
+      <div class="play-area" id="playArea">
+        <div class="info">
+          <p id="instructions">Click the labeled cockroaches before they scuttle away. Each hit saves the environment from another corporate nuisance.</p>
+          <div class="theme-marker"><span id="themeTag">#Production</span></div>
+        </div>
+        <div class="overlay" id="gameOverlay">
+          <div class="overlay-card">
+            <h2 id="overlayHeading">Game Over</h2>
+            <p id="overlayMessage">The office is safe — for now.</p>
+            <div class="share-box">
+              <label for="shareText" style="display:block; margin-bottom:.7rem; color:#94a3b8; font-size:.88rem; text-transform:uppercase; letter-spacing:.08em;">Share this on LinkedIn</label>
+              <textarea id="shareText" readonly></textarea>
+              <div class="share-actions">
+                <button id="copyShare">Copy share text</button>
+                <a id="linkedinShare" href="#" target="_blank" rel="noreferrer">Open LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const playArea = document.getElementById('playArea');
+    const playerNameInput = document.getElementById('playerName');
+    const themeSelect = document.getElementById('themeSelect');
+    const startButton = document.getElementById('startButton');
+    const scoreValue = document.getElementById('scoreValue');
+    const timerValue = document.getElementById('timerValue');
+    const killsValue = document.getElementById('killsValue');
+    const themeLabel = document.getElementById('themeLabel');
+    const themeTag = document.getElementById('themeTag');
+    const titleBadge = document.getElementById('titleBadge');
+    const gameOverlay = document.getElementById('gameOverlay');
+    const overlayHeading = document.getElementById('overlayHeading');
+    const overlayMessage = document.getElementById('overlayMessage');
+    const shareText = document.getElementById('shareText');
+    const copyShare = document.getElementById('copyShare');
+    const linkedinShare = document.getElementById('linkedinShare');
+    const toast = document.getElementById('toast');
+
+    const themeData = {
+      production: {
+        label: 'Production Server Crashing',
+        tag: '#Production',
+        instructions: 'Servers are melting. Squash every bug-labeled roach before the countdown hits zero.',
+      },
+      cubicle: {
+        label: 'Cubicle Hell at 7 PM',
+        tag: '#CubicleLife',
+        instructions: 'The office is overrun with corporate nuisances. Click fast and keep your sanity intact.',
+      },
+      exit: {
+        label: 'The 90-Day Notice Period',
+        tag: '#ExitPlan',
+        instructions: 'This may be your last day in the cube. Zap the problems before you walk out the gate.',
+      },
+    };
+
+    const nuisances = [
+      'Production Bug',
+      'Scope Creep',
+      'Legacy Code',
+      'Micromanagement',
+      'Unnecessary Alignment Meeting',
+    ];
+
+    const titles = [
+      { max: 15, title: 'Stressed Intern', description: 'Overwhelmed by bugs.' },
+      { max: 35, title: 'SDE-2', description: 'Solid debugger.' },
+      { max: 50, title: 'Tech Lead', description: 'Production savior.' },
+      { max: Infinity, title: 'Principal Architect', description: 'Legendary exterminator.' },
+    ];
+
+    let score = 0;
+    let kills = 0;
+    let timeLeft = 60;
+    let intervalId = null;
+    let spawnId = null;
+    let activeRoaches = new Set();
+    let gameActive = false;
+
+    const showToast = (message) => {
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2200);
+    }; 
+
+    const loadStats = () => {
+      const stored = localStorage.getItem('cockroachKillerStats');
+      if (!stored) return { plays: 0, bestScore: 0, lastScore: 0 };
+      try { return JSON.parse(stored); } catch { return { plays: 0, bestScore: 0, lastScore: 0 }; }
+    };
+
+    const saveStats = (stats) => localStorage.setItem('cockroachKillerStats', JSON.stringify(stats));
+
+    const updateHeader = () => {
+      const theme = themeData[themeSelect.value];
+      themeLabel.textContent = theme.label;
+      themeTag.textContent = theme.tag;
+      document.getElementById('instructions').textContent = theme.instructions;
+      document.body.style.backgroundImage = `radial-gradient(circle at 20% 20%, rgba(56,189,248,.18), transparent 15%), radial-gradient(circle at 75% 20%, rgba(248,113,113,.16), transparent 16%), linear-gradient(180deg, #020617 0%, #090c16 100%)`;
+    };
+
+    const getDesignation = (score) => titles.find((entry) => score <= entry.max);
+
+    const createRoach = () => {
+      if (!gameActive || activeRoaches.size >= 8) return;
+      const roach = document.createElement('button');
+      const label = nuisances[Math.floor(Math.random() * nuisances.length)];
+      roach.className = 'roach';
+      roach.type = 'button';
+      roach.innerHTML = `<span class='emoji'>🪳</span>${label}`;
+      const size = 16 + Math.random() * 24;
+      const x = Math.random() * (playArea.offsetWidth - 120);
+      const y = Math.random() * (playArea.offsetHeight - 80);
+      roach.style.left = `${Math.max(x, 12)}px`;
+      roach.style.top = `${Math.max(y, 12)}px`;
+      roach.style.opacity = '0';
+      roach.style.transform = 'scale(0.9)';
+      roach.dataset.id = crypto.randomUUID();
+
+      const removeRoach = () => {
+        activeRoaches.delete(roach.dataset.id);
+        roach.remove();
+      };
+
+      const timeout = setTimeout(() => {
+        roach.style.opacity = '0';
+        roach.style.transform = 'scale(0.8)';
+        setTimeout(removeRoach, 220);
+      }, 3000 + Math.random() * 1200);
+
+      roach.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (!gameActive) return;
+        score += 1;
+        kills += 1;
+        scoreValue.textContent = score;
+        killsValue.textContent = kills;
+        playArea.style.filter = 'hue-rotate(15deg)';
+        setTimeout(() => playArea.style.filter = 'none', 120);
+        activeRoaches.delete(roach.dataset.id);
+        clearTimeout(timeout);
+        roach.classList.add('popped');
+        roach.style.opacity = '0';
+        roach.style.transform = 'scale(1.25)';
+        setTimeout(removeRoach, 180);
+      });
+
+      activeRoaches.add(roach.dataset.id);
+      playArea.appendChild(roach);
+      requestAnimationFrame(() => {
+        roach.style.opacity = '1';
+        roach.style.transform = 'scale(1)';
+      });
+    };
+
+    const endGame = async () => {
+      gameActive = false;
+      clearInterval(intervalId);
+      clearInterval(spawnId);
+      activeRoaches.clear();
+      document.querySelectorAll('.roach').forEach((node) => node.remove());
+
+      const title = getDesignation(score);
+      const message = `You scored ${score} roach kills and earned the title ${title.title}!`;
+      titleBadge.textContent = title.title;
+      overlayHeading.textContent = title.title;
+      overlayMessage.textContent = title.description;
+
+      const userName = playerNameInput.value.trim() || 'Anonymous Techie';
+      const shareCopy = `Just exterminated ${score} corporate cockroaches and earned the title '${title.title}' on faltooai.fun! Kept the production environment safe from Scope Creep and Production Bugs. 🚀 Can you beat my score, fellow Tech Leads? #FaltooAI #TechHumor #CorporateLife #Coding`;
+      shareText.value = shareCopy;
+      linkedinShare.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://faltooai.fun/cockroach-killer')}`;
+      gameOverlay.classList.add('active');
+
+      const storedStats = loadStats();
+      const newStats = {
+        plays: storedStats.plays + 1,
+        bestScore: Math.max(storedStats.bestScore, score),
+        lastScore: score,
+      };
+      saveStats(newStats);
+      window.parent?.postMessage?.({ type: 'cockroach-killer-end', ...newStats }, window.origin);
+
+      if (window.localStorage.getItem('jwt_token')) {
+        try {
+          await fetch(`${window.location.origin}/api/v1/cockroach-killer/score`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${window.localStorage.getItem('jwt_token')}`,
+            },
+            body: JSON.stringify({
+              score,
+              player_name: userName,
+              theme: themeSelect.value,
+            }),
+          });
+        } catch (error) {
+          console.warn('Score submit failed:', error);
+        }
+      }
+    };
+
+    const startGame = () => {
+      if (gameActive) return;
+      score = 0;
+      kills = 0;
+      timeLeft = 60;
+      scoreValue.textContent = '0';
+      killsValue.textContent = '0';
+      timerValue.textContent = '60';
+      titleBadge.textContent = 'Stressed Intern';
+      gameOverlay.classList.remove('active');
+      gameActive = true;
+
+      clearInterval(intervalId);
+      clearInterval(spawnId);
+      intervalId = setInterval(() => {
+        timeLeft -= 1;
+        timerValue.textContent = String(timeLeft).padStart(2, '0');
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+      spawnId = setInterval(createRoach, 650);
+      createRoach();
+    };
+
+    startButton.addEventListener('click', () => startGame());
+    themeSelect.addEventListener('change', updateHeader);
+
+    copyShare.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(shareText.value);
+        showToast('Copied share text to clipboard');
+      } catch (err) {
+        showToast('Unable to copy. Select text manually.');
+      }
+    });
+
+    updateHeader();
+  </script>
+</body>
+</html>

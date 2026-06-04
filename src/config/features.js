@@ -39,6 +39,13 @@ export const SIDEBAR_NAV_SECTIONS = [
         description: 'Generate consistent naming conventions fast',
       },
       {
+        key: 'cockroach-killer',
+        label: 'Cockroach Killer',
+        icon: '🪳',
+        path: '/cockroach-killer',
+        description: 'Smash corporate nuisances in a 60-second desktop game',
+      },
+      {
         key: 'skill-assessment',
         label: 'Skill Assessment',
         icon: '🎯',
