@@ -9,6 +9,9 @@ const CockroachKillerPage = () => {
 
   useEffect(() => {
     const savedStats = window.localStorage.getItem('cockroachKillerStats');
+    const resizeTimer = window.setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 150);
     if (savedStats) {
       setStats(JSON.parse(savedStats));
     }
@@ -36,7 +39,10 @@ const CockroachKillerPage = () => {
     };
 
     window.addEventListener('message', onMessage);
-    return () => window.removeEventListener('message', onMessage);
+    return () => {
+      window.removeEventListener('message', onMessage);
+      window.clearTimeout(resizeTimer);
+    };
   }, []);
 
   return (
@@ -97,7 +103,8 @@ const CockroachKillerPage = () => {
             <iframe
               src="/cockroach-killer.html"
               title="Cockroach Killer game"
-              className="h-[78vh] min-h-[640px] w-full border-none"
+              loading="eager"
+              className="h-[calc(100vh-12rem)] min-h-[720px] w-full border-none"
             />
           </div>
 

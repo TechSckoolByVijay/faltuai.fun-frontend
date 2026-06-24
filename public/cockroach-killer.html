@@ -16,8 +16,8 @@
     body { background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 32%), linear-gradient(180deg, #020617 0%, #080a12 100%); }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
-    .page { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: 1rem; width: 100vw; height: 100vh; padding: 1rem; overflow: hidden; transition: all .3s ease; }
-    .page.fullscreen { grid-template-columns: 1fr; }
+    .page { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: 1rem; width: 100vw; height: 100vh; padding: 1rem; overflow: hidden; grid-template-rows: 1fr; }
+    .page.fullscreen { grid-template-columns: 1fr; transition: none; }
     .panel { display: flex; flex-direction: column; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.92); border-radius: 28px; padding: 1rem; box-shadow: 0 24px 120px rgba(15,23,42,.45); backdrop-filter: blur(24px); overflow: auto; min-height: 0; transition: opacity .3s ease, visibility .3s ease; }
     .page.fullscreen .panel { opacity: 0; visibility: hidden; pointer-events: none; width: 0; padding: 0; }
     .panel h1 { margin: 0 0 .75rem; font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1.05; }
@@ -26,14 +26,18 @@
     .field label { color: #94a3b8; font-size: .88rem; letter-spacing: .04em; text-transform: uppercase; }
     .field input, .field select { width: 100%; border-radius: 18px; border: 1px solid rgba(148,163,184,.15); background: rgba(15,23,42,.96); color: #e2e8f0; padding: .95rem 1rem; outline: none; }
     .field input:focus, .field select:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.12); }
-    .button { width: 100%; margin-top: 1.5rem; border: none; border-radius: 18px; padding: 1rem 1.1rem; font-size: 1rem; font-weight: 700; color: #0f172a; background: linear-gradient(135deg, #38bdf8, #818cf8); transition: transform .2s ease, box-shadow .2s ease; }
-    .button:hover { transform: translateY(-1px); box-shadow: 0 18px 32px rgba(56,189,248,.2); }
+    @keyframes btn-glow { 0%, 100% { box-shadow: 0 10px 24px rgba(56,189,248,.3); transform: translateY(0); } 50% { box-shadow: 0 14px 44px rgba(56,189,248,.6), 0 0 0 7px rgba(56,189,248,.1); transform: translateY(-2px); } }
+    .button { width: 100%; margin-top: 0; border: none; border-radius: 22px; padding: 1.25rem 1.2rem; font-size: 1.15rem; font-weight: 800; color: #0f172a; background: linear-gradient(135deg, #38bdf8, #818cf8); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; box-shadow: 0 10px 24px rgba(56,189,248,.25); line-height: 1.2; }
+    .button.ready { animation: btn-glow 2s ease-in-out infinite; }
+    .button:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(56,189,248,.4); background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+    .button:active { transform: translateY(0); animation: none; }
+    .button:disabled { opacity: .55; cursor: not-allowed; transform: none !important; animation: none; }
     .stats { display: grid; gap: 1rem; margin-top: 1.5rem; }
     .stat { display: grid; gap: .35rem; padding: 1rem 1.1rem; border-radius: 20px; background: rgba(30,41,59,.9); border: 1px solid rgba(148,163,184,.12); }
     .stat span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8; }
     .stat strong { font-size: 1.8rem; color: #f8fafc; }
     .game-board { position: relative; display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: hidden; border-radius: 32px; border: 1px solid rgba(148,163,184,.12); background: radial-gradient(circle at 20% 20%, rgba(59,130,246,.22), transparent 20%), radial-gradient(circle at 80% 15%, rgba(16,185,129,.16), transparent 18%), linear-gradient(180deg, #0f172a 0%, #020617 100%); }
-    .page.fullscreen .game-board { border-radius: 0; border: none; }
+    .page.fullscreen .game-board { position: fixed; inset: 0; z-index: 100; border-radius: 0; border: none; }
     .game-header { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding: 1.15rem 1.35rem; background: rgba(15,23,42,.9); border-bottom: 1px solid rgba(148,163,184,.12); }
     .page.fullscreen .game-header { display: none; }
     .game-header .label { color: #94a3b8; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
@@ -45,7 +49,7 @@
     .play-area .info { position: absolute; left: 1.5rem; bottom: 1.5rem; color: #e2e8f0; z-index: 10; line-height: 1.5; max-width: 15rem; }
     .play-area .theme-marker { display: inline-flex; gap: .5rem; align-items: center; margin-top: .75rem; padding: .65rem .9rem; border-radius: 999px; background: rgba(15,23,42,.75); border: 1px solid rgba(148,163,184,.12); }
     .play-area .theme-marker span { font-size: .95rem; color: #cbd5e1; }
-    .game-area { position: relative; width: 100%; height: 100%; cursor: crosshair; }
+    .game-area { position: absolute; inset: 0; cursor: crosshair; background: transparent; }
     .roach { position: absolute; display: inline-flex; align-items: center; gap: .55rem; padding: .65rem .85rem; border-radius: 999px; background: rgba(15,23,42,.95); border: 1px solid rgba(148,163,184,.2); color: #f8fafc; font-size: .97rem; font-weight: 600; user-select: none; transition: transform .2s ease, opacity .2s ease; }
     .roach:hover { transform: scale(1.05); }
     .roach .emoji { font-size: 1.2rem; }
@@ -70,32 +74,42 @@
 <body>
   <div class="page">
     <section class="panel">
-      <p style="font-size:.95rem; color:#38bdf8; letter-spacing:.14em; text-transform:uppercase;">Public Play</p>
-      <h1>Cockroach Killer</h1>
-      <p>Type your player name, pick a corporate theme, and click all the bugs before time runs out. Use the result text to share on LinkedIn with a tech humor twist.</p>
-
-      <div class="field">
-        <label for="playerName">Player Name</label>
-        <input id="playerName" type="text" value="Anonymous Techie" maxlength="30" />
+      <div style="text-align:center; margin-bottom:1rem;">
+        <p style="font-size:.75rem; color:#38bdf8; letter-spacing:.18em; text-transform:uppercase; margin:0 0 .4rem;">Corporate Cockroach Killer</p>
+        <div style="font-size:2.4rem; line-height:1;">🪳</div>
+        <p style="font-size:.85rem; color:#94a3b8; margin:.4rem 0 0;">Squash bugs before the timer dies</p>
       </div>
 
-      <div class="field">
-        <label for="themeSelect">Theme</label>
-        <select id="themeSelect" aria-label="Select theme">
-          <option value="production">Production Server Crashing</option>
-          <option value="cubicle">Cubicle Hell at 7 PM</option>
-          <option value="exit">The 90-Day Notice Period</option>
-        </select>
+      <button id="startButton" class="button ready">
+        🎮 Play Now
+        <span id="btnSubtext" style="display:block; font-size:.78rem; font-weight:500; opacity:.75; margin-top:.2rem;">Free · No sign-in needed</span>
+      </button>
+
+      <div style="margin-top:1.25rem; padding:1.1rem 1.15rem; border-radius:22px; background:rgba(30,41,59,.7); border:1px solid rgba(148,163,184,.1);">
+        <div class="field" style="margin-top:0;">
+          <label for="playerName">Your Name</label>
+          <input id="playerName" type="text" value="Anonymous Techie" maxlength="30" />
+        </div>
+        <div class="field">
+          <label for="themeSelect">Scenario</label>
+          <select id="themeSelect" aria-label="Select theme">
+            <option value="production">🔥 Production Server Crashing</option>
+            <option value="cubicle">😩 Cubicle Hell at 7 PM</option>
+            <option value="exit">🚪 The 90-Day Notice Period</option>
+          </select>
+        </div>
       </div>
 
-      <div class="stats">
-        <div class="stat"><span>Score</span><strong id="scoreValue">0</strong></div>
-        <div class="stat"><span>Timer</span><strong id="timerValue">60</strong></div>
-        <div class="stat"><span>Hits</span><strong id="killsValue">0</strong></div>
+      <div style="margin-top:1.15rem; padding-top:1.15rem; border-top:1px solid rgba(148,163,184,.1);">
+        <p style="font-size:.72rem; color:#64748b; text-transform:uppercase; letter-spacing:.1em; margin:0 0 .75rem;">Live Stats</p>
+        <div class="stats" style="margin-top:0; grid-template-columns:1fr 1fr 1fr; gap:.6rem;">
+          <div class="stat"><span>Score</span><strong id="scoreValue" style="font-size:1.5rem; color:#38bdf8;">0</strong></div>
+          <div class="stat"><span>Timer</span><strong id="timerValue" style="font-size:1.5rem; color:#f59e0b;">60</strong></div>
+          <div class="stat"><span>Kills</span><strong id="killsValue" style="font-size:1.5rem; color:#10b981;">0</strong></div>
+        </div>
       </div>
 
-      <button id="startButton" class="button">Start Extermination</button>
-      <p style="font-size:.95rem; color:#94a3b8; margin-top:1rem;">Signed-in users can have their score submitted to the leaderboard automatically. Guest play remains instant and free.</p>
+      <p style="font-size:.78rem; color:#475569; margin-top:1rem; line-height:1.6; text-align:center;">Sign in to save score &amp; climb the leaderboard</p>
     </section>
 
     <section class="game-board">
@@ -195,6 +209,19 @@
       setTimeout(() => toast.classList.remove('visible'), 2200);
     }; 
 
+    const refreshRoachPositions = () => {
+      if (!gameActive) return;
+      const rect = gameArea.getBoundingClientRect();
+      const areaW = rect.width  > 0 ? rect.width  : window.innerWidth;
+      const areaH = rect.height > 0 ? rect.height : window.innerHeight;
+      document.querySelectorAll('.roach').forEach((roachNode) => {
+        const x = 12 + Math.random() * Math.max(areaW - 200, 50);
+        const y = 12 + Math.random() * Math.max(areaH - 80, 50);
+        roachNode.style.left = `${Math.round(x)}px`;
+        roachNode.style.top = `${Math.round(y)}px`;
+      });
+    };
+
     const loadStats = () => {
       const stored = localStorage.getItem('cockroachKillerStats');
       if (!stored) return { plays: 0, bestScore: 0, lastScore: 0 };
@@ -220,11 +247,17 @@
       roach.className = 'roach';
       roach.type = 'button';
       roach.innerHTML = `<span class='emoji'>🪳</span>${label}`;
-      const size = 16 + Math.random() * 24;
-      const x = Math.random() * (gameArea.offsetWidth - 120);
-      const y = Math.random() * (gameArea.offsetHeight - 80);
-      roach.style.left = `${Math.max(x, 12)}px`;
-      roach.style.top = `${Math.max(y, 12)}px`;
+      
+      // getBoundingClientRect always returns real layout values
+      const rect = gameArea.getBoundingClientRect();
+      const areaW = rect.width  > 0 ? rect.width  : window.innerWidth;
+      const areaH = rect.height > 0 ? rect.height : window.innerHeight;
+
+      const x = 10 + Math.random() * Math.max(areaW - 200, 50);
+      const y = 10 + Math.random() * Math.max(areaH - 80, 50);
+      
+      roach.style.left = `${Math.round(x)}px`;
+      roach.style.top = `${Math.round(y)}px`;
       roach.style.opacity = '0';
       roach.style.transform = 'scale(0.9)';
       roach.dataset.id = crypto.randomUUID();
@@ -272,6 +305,10 @@
       activeRoaches.clear();
       document.querySelectorAll('.roach').forEach((node) => node.remove());
       document.querySelector('.page').classList.remove('fullscreen');
+
+      // Restore Play Again button
+      startButton.innerHTML = '🎮 Play Again<span style="display:block;font-size:.78rem;font-weight:500;opacity:.75;margin-top:.2rem;">Beat your score!</span>';
+      startButton.classList.add('ready');
 
       const title = getDesignation(score);
       const message = `You scored ${score} roach kills and earned the title ${title.title}!`;
@@ -327,21 +364,41 @@
       titleBadge.textContent = 'Stressed Intern';
       gameOverlay.classList.remove('active');
       gameActive = true;
-      document.querySelector('.page').classList.add('fullscreen');
+      
+      // Add fullscreen mode
+      const pageBg = document.querySelector('.page');
+      pageBg.classList.add('fullscreen');
 
       clearInterval(intervalId);
       clearInterval(spawnId);
+      
+      // Start timer immediately
       intervalId = setInterval(() => {
         timeLeft -= 1;
         timerValue.textContent = String(timeLeft).padStart(2, '0');
         if (timeLeft <= 0) endGame();
       }, 1000);
-      spawnId = setInterval(createRoach, 650);
-      createRoach();
+      
+      // Force layout recalculation with multiple batches
+      for (let i = 0; i < 3; i++) {
+        void gameArea.offsetWidth;
+        void gameArea.offsetHeight;
+        void gameArea.getBoundingClientRect();
+      }
+      
+      // Wait for fullscreen layout to fully settle before spawning
+      setTimeout(() => {
+        spawnId = setInterval(createRoach, 650);
+        createRoach();
+      }, 380);
     };
 
     startButton.addEventListener('click', () => startGame());
     themeSelect.addEventListener('change', updateHeader);
+    window.addEventListener('resize', refreshRoachPositions);
+
+    // Initialise button pulse on load
+    startButton.classList.add('ready');
 
     copyShare.textContent = 'Share on LinkedIn';
     copyShare.addEventListener('click', () => {
