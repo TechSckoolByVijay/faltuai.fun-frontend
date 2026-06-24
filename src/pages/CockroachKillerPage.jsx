@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/useAuth.js';
 import { API_ENDPOINTS } from '../config/backend.js';
+import { authService } from '../auth/authService.js';
 
 const CockroachKillerPage = () => {
   const { isAuthenticated, user } = useAuth();
@@ -59,11 +60,24 @@ const CockroachKillerPage = () => {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl bg-slate-950/95 p-4 ring-1 ring-slate-700">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Signed In</p>
-                <p className="mt-2 text-xl font-semibold text-white">{isAuthenticated ? 'Yes' : 'No'}</p>
-                <p className="mt-1 text-sm text-slate-400">{isAuthenticated ? user?.name || user?.email : 'Guest mode active'}</p>
-              </div>
+              {isAuthenticated ? (
+                <div className="rounded-3xl bg-slate-950/95 p-4 ring-1 ring-emerald-700/50 sm:col-span-1">
+                  <p className="text-xs uppercase tracking-[0.3em] text-emerald-500">Signed In</p>
+                  <p className="mt-2 text-base font-semibold text-white truncate">{user?.name || user?.email}</p>
+                  <p className="mt-1 text-xs text-emerald-400">Score saves to leaderboard ✓</p>
+                </div>
+              ) : (
+                <div className="rounded-3xl bg-slate-950/95 p-4 ring-1 ring-slate-700 sm:col-span-1">
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Playing as</p>
+                  <p className="mt-2 text-base font-semibold text-amber-400">Guest</p>
+                  <button
+                    onClick={() => authService.loginWithGoogle('/cockroach-killer')}
+                    className="mt-2 w-full rounded-xl bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors"
+                  >
+                    Sign in to save score
+                  </button>
+                </div>
+              )}
               <div className="rounded-3xl bg-slate-950/95 p-4 ring-1 ring-slate-700">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Plays</p>
                 <p className="mt-2 text-3xl font-semibold text-amber-400">{stats.plays}</p>

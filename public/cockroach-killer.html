@@ -65,6 +65,17 @@
     .share-actions button, .share-actions a { border: none; border-radius: 18px; padding: .95rem 1.1rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; text-decoration: none; }
     .share-actions button { background: #38bdf8; color: #0f172a; }
     .share-actions a { background: #0ea5e9; color: #f8fafc; }
+    .hud { display: none; position: absolute; top: 0; left: 0; right: 0; z-index: 30; padding: .8rem 1.4rem; background: rgba(8,14,26,.88); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(148,163,184,.1); }
+    .page.fullscreen .hud { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .hud-pill { display: inline-flex; align-items: center; gap: .55rem; padding: .45rem 1rem; border-radius: 999px; background: rgba(15,23,42,.9); border: 1px solid rgba(148,163,184,.15); }
+    .hud-pill .lbl { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: #64748b; }
+    .hud-pill .val { font-size: 1.3rem; font-weight: 800; min-width: 2rem; }
+    .timer-ok { color: #38bdf8; }
+    .timer-warn { color: #f59e0b; }
+    .timer-danger { color: #ef4444; animation: pulse-red .6s ease-in-out infinite; }
+    @keyframes pulse-red { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .hud-quit { border: 1px solid rgba(239,68,68,.3); background: rgba(239,68,68,.1); color: #fca5a5; border-radius: 999px; padding: .45rem 1.1rem; font-size: .8rem; font-weight: 700; transition: background .2s ease; }
+    .hud-quit:hover { background: rgba(239,68,68,.3); }
     .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); padding: .9rem 1.2rem; border-radius: 999px; background: rgba(15,23,42,.96); color: #f8fafc; font-size: .95rem; box-shadow: 0 20px 60px rgba(0,0,0,.4); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
     .toast.visible { opacity: 1; }
     @media (max-width: 1024px) { .page { grid-template-columns: 1fr; min-height: auto; } .panel { max-height: none; } .game-board { min-height: 72vh; } }
@@ -113,6 +124,14 @@
     </section>
 
     <section class="game-board">
+      <div class="hud" id="hud">
+        <div style="display:flex; gap:.65rem; flex-wrap:wrap; align-items:center;">
+          <div class="hud-pill"><span class="lbl">⏱ Time</span><span class="val timer-ok" id="hudTimer">60</span></div>
+          <div class="hud-pill"><span class="lbl">🎯 Score</span><span class="val" style="color:#818cf8;" id="hudScore">0</span></div>
+          <div class="hud-pill"><span class="lbl">🪳 Killed</span><span class="val" style="color:#10b981;" id="hudKills">0</span></div>
+        </div>
+        <button class="hud-quit" id="quitButton">✕ Quit</button>
+      </div>
       <div class="game-header">
         <div class="game-score"><span class="label">Active theme</span><strong id="themeLabel">Production Server Crashing</strong></div>
         <div class="game-score"><span class="label">Title on success</span><strong id="titleBadge">Stressed Intern</strong></div>
@@ -161,6 +180,10 @@
     const copyShare = document.getElementById('copyShare');
     const linkedinShare = document.getElementById('linkedinShare');
     const toast = document.getElementById('toast');
+    const hudTimer = document.getElementById('hudTimer');
+    const hudScore = document.getElementById('hudScore');
+    const hudKills = document.getElementById('hudKills');
+    const quitButton = document.getElementById('quitButton');
 
     const themeData = {
       production: {
@@ -181,11 +204,31 @@
     };
 
     const nuisances = [
-      'Production Bug',
+      'Last-Minute Blocker',
+      'This Could\'ve Been an Email',
+      'Surprise Reorg',
+      'KPI Roulette',
+      'JIRA Ticket Hell',
+      'Unrealistic Deadline',
+      'Mandatory Fun',
+      'Tech Debt',
+      'Undocumented Hotfix',
+      'Pivot Again',
+      'Move the Goalpost',
+      'Synergy Deck',
+      'OKR Season',
+      'Burnout Sprint',
+      'PIP Surprise',
+      'Reply-All Storm',
+      'Meeting Invite at 5 PM',
+      'Dependency Hell',
       'Scope Creep',
-      'Legacy Code',
+      'Hotfix in Prod',
       'Micromanagement',
-      'Unnecessary Alignment Meeting',
+      'Death by Dashboard',
+      'Fake Urgency',
+      'Unread Slack Bomb',
+      'Legacy Spaghetti',
     ];
 
     const titles = [
@@ -280,6 +323,8 @@
         kills += 1;
         scoreValue.textContent = score;
         killsValue.textContent = kills;
+        hudScore.textContent = score;
+        hudKills.textContent = kills;
         playArea.style.filter = 'hue-rotate(15deg)';
         setTimeout(() => playArea.style.filter = 'none', 120);
         activeRoaches.delete(roach.dataset.id);
@@ -361,6 +406,10 @@
       scoreValue.textContent = '0';
       killsValue.textContent = '0';
       timerValue.textContent = '60';
+      hudTimer.textContent = '60';
+      hudTimer.className = 'val timer-ok';
+      hudScore.textContent = '0';
+      hudKills.textContent = '0';
       titleBadge.textContent = 'Stressed Intern';
       gameOverlay.classList.remove('active');
       gameActive = true;
@@ -375,7 +424,10 @@
       // Start timer immediately
       intervalId = setInterval(() => {
         timeLeft -= 1;
-        timerValue.textContent = String(timeLeft).padStart(2, '0');
+        const t = String(timeLeft).padStart(2, '0');
+        timerValue.textContent = t;
+        hudTimer.textContent = t;
+        hudTimer.className = 'val ' + (timeLeft > 20 ? 'timer-ok' : timeLeft > 10 ? 'timer-warn' : 'timer-danger');
         if (timeLeft <= 0) endGame();
       }, 1000);
       
@@ -396,6 +448,7 @@
     startButton.addEventListener('click', () => startGame());
     themeSelect.addEventListener('change', updateHeader);
     window.addEventListener('resize', refreshRoachPositions);
+    quitButton.addEventListener('click', () => endGame());
 
     // Initialise button pulse on load
     startButton.classList.add('ready');
